@@ -7,7 +7,7 @@ const TextInput = ({ label, placeholder, value, setValue }) => {
             <input
                 type="password"
                 placeholder={placeholder}
-                className="text-xl p-3 border border-solid border-deepblue bg-glass rounded placeholder-deepblue"
+                className="text-xl p-3 border border-solid border-dodgeblue bg-glass rounded placeholder-dodgeblue"
                 id={label}
                 value={value}
                 // onChange={(e) => {

@@ -7,7 +7,7 @@ const Upload = () => {
         <div className="flex items-center justify-center w-full">
              <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-56 border-2 border-deepblue border-dashed rounded-lg cursor-pointer bg-blue-600 hover:bg-blue-700"
+                className="flex flex-col items-center justify-center w-full h-56 border-2 border-dodgeblue border-dashed rounded-lg cursor-pointer bg-blue-600 hover:bg-blue-700"
                 style={{
                     background: '#ffffff26',
                 }}
@@ -15,10 +15,10 @@ const Upload = () => {
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     {/* <img src={uploadIcon} alt='uploadicon' className='mt-4'/> */}
                     <Icon icon="uiw:cloud-upload" color="#0174f0" width="100" height="100" />
-                    <p className="mb-2 text-sm text-deepblue mt-4 ">
+                    <p className="mb-2 text-sm text-dodgeblue mt-4 ">
                         <span className="font-semibold">Click to upload</span> or drag and drop the 3D model
                     </p>
-                    <p className="text-xs text-deepblue ">
+                    <p className="text-xs text-dodgeblue ">
                         glb, gLTF (MAX. 100MB)
                     </p>
                 </div>

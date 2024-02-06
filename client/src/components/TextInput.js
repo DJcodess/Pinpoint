@@ -9,7 +9,7 @@ const TextInput = ({
 }) => {
     return (
         <div
-            className={`textInputDiv flex flex-col space-y-2 w-full ${className}`}
+            className={`flex flex-col space-y-2 w-full ${className}`}
         >
             <label for={label} className={`font-semibold ${labelClassName}`}>
                 {label}
@@ -17,7 +17,7 @@ const TextInput = ({
             
             <input type="email" 
                    name="email" 
-                   className="mt-1 border shadow-sm text-2xl p-3 border border-solid border-deepblue bg-glass rounded placeholder-deepblue focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 
+                   className="mt-1 border shadow-sm text-2xl p-3 border border-solid border-dodgeblue bg-glass rounded placeholder-dodgeblue focus:outline-none focus:borde-dodgeblue focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" 
                    placeholder="" />
         </div>
     );
@@ -25,4 +25,4 @@ const TextInput = ({
 
 export default TextInput;
 
-// className="text-xl p-3 border border-solid border-deepblue bg-glass rounded placeholder-deepblue"
+// className="text-xl p-3 border border-solid border-dodgeblue bg-glass rounded placeholder-dodgeblue"

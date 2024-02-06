@@ -7,9 +7,7 @@ import Drone3D from '../components/Drone';
 const Ecommerce = () => {
 
     const handleFormSubmit = () => {
-        // Handle form submission logic here
-        
-        // Display a success alert
+
         alert('Loading AR Content...');
     };
 
