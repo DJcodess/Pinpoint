@@ -26,6 +26,7 @@ module.exports = {
         gray2: "#BDBDBD",
         glass: "#7eafeb",
         deepblue: "#00bfff",
+        brown: "#632F1E",
       }
     },
   },

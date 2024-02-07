@@ -13,13 +13,12 @@ const Upload = () => {
                 }}
             >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                    {/* <img src={uploadIcon} alt='uploadicon' className='mt-4'/> */}
                     <Icon icon="uiw:cloud-upload" color="#0174f0" width="100" height="100" />
                     <p className="mb-2 text-sm text-dodgeblue mt-4 ">
-                        <span className="font-semibold">Click to upload</span> or drag and drop the 3D model
+                        <span className="font-semibold">Click to upload</span> or drag and drop the csv file
                     </p>
                     <p className="text-xs text-dodgeblue ">
-                        glb, gLTF (MAX. 100MB)
+                        csv, xlsx (MAX. 100MB)
                     </p>
                 </div>
                 <input id="dropzone-file" type="file" className="hidden" />
