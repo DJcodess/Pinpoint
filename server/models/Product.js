@@ -1,12 +1,12 @@
-import mongoose from "mongoose";
-import { uuid } from "uuidv4";
+const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const productSchema = new mongoose.Schema(
   {
     _id: {
       type: String,
       required: true,
-      default: () => uuid(),
+      default: () => uuidv4(),
     },
     merchantIds: { type: [String], required: true, default: [] },
     productName: { type: String, required: true },
@@ -14,6 +14,7 @@ const productSchema = new mongoose.Schema(
     productDescription: { type: String },
   },
   {
+    collection: 'Product',
     strict: true,
     timestamps: true,
   }

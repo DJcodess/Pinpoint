@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const quoteSchema = new mongoose.Schema(
   {
@@ -7,6 +7,7 @@ const quoteSchema = new mongoose.Schema(
     sellingPrice: { type: Number, required: true },
   },
   {
+    collection: 'Quote',
     strict: true,
     timestamps: true,
   }

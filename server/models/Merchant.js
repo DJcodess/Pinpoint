@@ -1,12 +1,12 @@
-import mongoose from "mongoose";
-import { uuid } from "uuidv4";
+const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
 
 const merchantSchema = new mongoose.Schema(
   {
     _id: {
       type: String,
       required: true,
-      default: () => uuid(),
+      default: () => uuidv4(),
     },
     merchantName: { type: String, required: true },
     merchantAddress: { type: String, required: true },
@@ -14,6 +14,7 @@ const merchantSchema = new mongoose.Schema(
     serviceablePincodes: { type: [Number], required: false },
   },
   {
+    collection: 'Merchant',
     strict: true,
     timestamps: true,
   }
