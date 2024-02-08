@@ -28,9 +28,9 @@ router.post('/:merchantId', upload.single('csvFile'), (req, res) => {
         .pipe(csvParser())
         .on('data', (row) => { // Process each row from the CSV
             const pincodeObject = row; // Extract the pincode object from the row
-            // Iterate over the values (pincode values) of the pincode object
+            //selecting pincode as the values (pincode values) of the pincode object
             console.log('Setting pincode: ', pincodeObject);
-            let pincode = pincodeObject["pincodes"];
+            let pincode = pincodeObject["pincode"];
             // Check if pincode is valid before adding to the set
             if (pincode) {
                 client.sadd(`merchant:${merchantId}`, pincode, (err, reply) => {

@@ -13,7 +13,7 @@ const port = process.env.PORT || 3001;
 const CONNECTION_MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://localhost/testdb";
 
-/*mongoose.connect(CONNECTION_MONGODB_URI, {
+mongoose.connect(CONNECTION_MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -25,7 +25,6 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB");
 });
-*/
 // For parsing JSON in req.body.
 app.use(express.json());
 
