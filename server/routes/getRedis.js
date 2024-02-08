@@ -4,11 +4,12 @@ const redis = require('redis');
 
 const router = express.Router();
 const client = redis.createClient({
-    host: "redis-19794.c212.ap-south-1-1.ec2.cloud.redislabs.com",
-    port: 19794,
-    username: "default",
-    password: "866yos0r7TKGzG5zTfjJotIB5bAKFZac"
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    username: process.env.REDIS_USER,
+    password: process.env.REDIS_PASSWORD
 });
+
 
 client.on('error', (err) => {
     console.error('Redis error:', err);
