@@ -6,6 +6,7 @@ const merchantRoutes = require("./routes/merchant_routes");
 const getRedis = require('./routes/getRedis');
 const setRedis = require('./routes/setRedis');
 const redis = require('redis');
+const quoteRoutes = require("./routes/quote_routes");
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -38,6 +39,28 @@ app.use("/api/product", productRoutes);
 app.use("/api/merchant", merchantRoutes);
 app.use("/api/upload", setRedis);
 app.use("/api/checkService", getRedis);
+app.use("/api/quote", quoteRoutes);
+
+// Function to close connection.
+const closeMongoDBConnection = () => {
+  mongoose.connection
+    .close()
+    .then(() => {
+      console.log("Closing MongoDB connection due to app termination.");
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error("Error closing MongoDB connection:", err);
+      process.exit(1);
+    });
+};
+
+process.on("SIGINT", () => {
+  closeMongoDBConnection();
+});
+process.on("SIGTERM", () => {
+  closeMongoDBConnection();
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

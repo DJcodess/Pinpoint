@@ -11,7 +11,6 @@ const merchantSchema = new mongoose.Schema(
     merchantName: { type: String, required: true },
     merchantAddress: { type: String, required: true },
     merchantDescription: { type: String, required: true, default: "NA" },
-    serviceablePincodes: { type: [Number], required: false },
   },
   {
     collection: 'Merchant',
