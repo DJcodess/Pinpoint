@@ -11,7 +11,7 @@ router.post("/create", async (req, res) => {
       imageLink,
       productDescription,
     });
-    const savedProduct = await newProduct.save();
+    constsavedProduct = await newProduct.save();
     res.status(201).json(savedProduct);
   } catch (err) {
     console.error(err);
@@ -42,6 +42,6 @@ router.get("/items/:id", async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
   }
-});
+});0
 
 module.exports = router;
