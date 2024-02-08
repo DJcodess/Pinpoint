@@ -8,14 +8,11 @@ const redis = require('redis');
 const router = express.Router();
 const upload = multer({ dest: 'uploads/' }); // Destination folder for uploaded files
 
-// import  { createClient } from 'redis';
-
 // POST route to upload CSV file and set pincodes for a merchant
 router.post('/:merchantId', upload.single('csvFile'), (req, res) => {
     const client = redis.createClient({
-        host: '127.0.0.1',
+        host: "localhost",
         port: 6379,
-        // password: 'password',
     });
 
     client.on('error', (err) => {
@@ -27,15 +24,24 @@ router.post('/:merchantId', upload.single('csvFile'), (req, res) => {
 
     fs.createReadStream(csvFilePath)
         .pipe(csvParser())
-        .on('data', (row) => {
-            const pincode = row.pincode;
-            client.set(`merchant:${merchantId}`, pincode, (err, reply) => {
-                if (err) {
-                    console.error('Error adding pincode to set:', err);
+        .on('data', (row) => { // Process each row from the CSV
+            const pincodeObject = row; // Extract the pincode object from the row
+            // Iterate over the values (pincode values) of the pincode object
+            console.log('Setting pincode: ', pincodeObject);
+            for (let pincode of Object.values(pincodeObject)) {
+                // Check if pincode is valid before adding to the set
+                if (pincode) {
+                    client.sadd(`merchant:${merchantId}`, pincode, (err, reply) => {
+                        if (err) {
+                            console.error('Error adding pincode to set:', err);
+                        } else {
+                            console.log(`Pincode ${pincode} added to set for merchant ${merchantId}`);
+                        }
+                    });
                 } else {
-                    console.log(`Pincode ${pincode} added to set for merchant ${merchantId}`);
+                    console.warn('Invalid pincode:', pincode);
                 }
-            });
+            }
         })
         .on('end', () => {
             console.log('CSV processing complete');
