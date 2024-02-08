@@ -39,16 +39,16 @@ const FormPage = () => {
                         </Link>
                         <input type="email" 
                                 name="email" 
-                                className="mt-8 border shadow-sm text-xl p-3 border border-solid border-dodgeblue bg-gray1 rounded placeholder-deepblue focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md focus:ring-1" 
-                                placeholder="E-mail Address" />
+                                className="mt-8 border shadow-sm text-lg p-3 border border-solid border-dodgeblue bg-gray1 rounded placeholder-deepblue focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md focus:ring-1 placeholder-dodgeblue" 
+                                placeholder="Merchant E-mail" />
                         <input type="password" 
                                 name="password" 
-                                className="mt-6 border shadow-sm text-xl p-3 border border-solid border-dodgeblue bg-gray1 rounded placeholder-deepblue focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md focus:ring-1" 
+                                className="mt-6 border shadow-sm text-lg p-3 border border-solid border-dodgeblue bg-gray1 rounded placeholder-deepblue focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md focus:ring-1 placeholder-dodgeblue" 
                                 placeholder="Password" />
                         <input type="Product" 
                                 name="Product" 
-                                className="my-6 border shadow-sm text-xl p-3 border border-solid border-dodgeblue bg-gray1 rounded placeholder-deepblue focus:outline-none focus:border-dodgeblue focus:ring-sky-500 block w-full rounded-md focus:ring-1" 
-                                placeholder="Product Name" />
+                                className="my-6 border shadow-sm text-lg p-3 border border-solid border-dodgeblue bg-gray1 rounded placeholder-deepblue focus:outline-none focus:border-dodgeblue focus:ring-sky-500 block w-full rounded-md focus:ring-1 placeholder-dodgeblue" 
+                                placeholder="Merchant ID" />
                         <Upload/>
                         <Link
                             to='/submit'
