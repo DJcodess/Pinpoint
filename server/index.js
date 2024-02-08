@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
 app.use("/api/product", productRoutes);
 app.use("/api/merchant", merchantRoutes);
 app.use("/api/upload", setRedis);
-app.use("/api/checkService",getRedis);
+app.use("/api/checkService", getRedis);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
