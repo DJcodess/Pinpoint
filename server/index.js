@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const envconfig = require("dotenv").config();
 const productRoutes = require("./routes/product_routes");
 const merchantRoutes = require("./routes/merchant_routes");
+const quoteRoutes = require("./routes/quote_routes");
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -34,6 +35,28 @@ app.get("/", (req, res) => {
 // Mounting remaining routes.
 app.use("/api/product", productRoutes);
 app.use("/api/merchant", merchantRoutes);
+app.use("/api/quote", quoteRoutes);
+
+// Function to close connection.
+const closeMongoDBConnection = () => {
+  mongoose.connection
+    .close()
+    .then(() => {
+      console.log("Closing MongoDB connection due to app termination.");
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error("Error closing MongoDB connection:", err);
+      process.exit(1);
+    });
+};
+
+process.on("SIGINT", () => {
+  closeMongoDBConnection();
+});
+process.on("SIGTERM", () => {
+  closeMongoDBConnection();
+});
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
