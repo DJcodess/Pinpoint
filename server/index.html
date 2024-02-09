@@ -59,7 +59,7 @@
     }
 
     .code-block {
-      background-color: #f0f0f0;
+      background-color: #e2e2e2;
       padding: 20px;
       border-radius: 8px;
     }
@@ -252,26 +252,74 @@ FormData:
           <p class="api-desc">Get a list of all merchants.</p>
           <p class="api-desc">Example Response:</p>
           <pre><code>
-[
-  {
-    "_id": "merchantId1",
-    "merchantName": "Merchant 1",
-    "merchantAddress": "City, Country",
-    "merchantDescription": "Description for Merchant 1",
-    "createdAt": "2023-01-01T12:34:56.789Z",
-    "updatedAt": "2023-02-01T13:45:12.345Z",
-    "__v": 0
-  },
-  {
-    "_id": "merchantId2",
-    "merchantName": "Merchant 2",
-    "merchantAddress": "City, Country",
-    "merchantDescription": "Description for Merchant 2",
-    "createdAt": "2023-03-01T14:56:23.456Z",
-    "updatedAt": "2023-04-01T16:12:34.567Z",
-    "__v": 0
-  }
-]
+            [
+              {
+                "_id": "merchantId1",
+                "merchantName": "Merchant 1",
+                "merchantAddress": "City, Country",
+                "merchantDescription": "Description for Merchant 1",
+                "createdAt": "YYYY-MM-DDT12:34:56.789Z",
+                "updatedAt": "YYYY-MM-DDT13:45:12.345Z",
+                "__v": 0
+              },
+              {
+                "_id": "merchantId2",
+                "merchantName": "Merchant 2",
+                "merchantAddress": "City, Country",
+                "merchantDescription": "Description for Merchant 2",
+                "createdAt": "YYYY-MM-DDT14:56:23.456Z",
+                "updatedAt": "YYYY-MM-DDT16:12:34.567Z",
+                "__v": 0
+              }
+            ]
+          </code></pre>
+        </div>
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              GET /api/merchant/merchants/:id
+            </code>
+          </div>
+          <p class="api-desc">Get specific details of a merchant by its ID.</p>
+          <p class="api-desc">Example Response:</p>
+          <pre><code>
+            {
+              "_id": "merchantId1",
+              "merchantName": "Merchant 1",
+              "merchantAddress": "City, Country",
+              "merchantDescription": "Description for Merchant 1",
+              "createdAt": "YYYY-MM-DDT12:34:56.789Z",
+              "updatedAt": "YYYY-MM-DDT13:45:12.345Z",
+              "__v": 0
+            }
+          </code></pre>
+        </div>
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              POST /api/merchant/create
+            </code>
+          </div>
+          <p class="api-desc">Create a new merchant with the provided details.</p>
+          <p class="api-desc">Example Request:</p>
+          <pre><code>
+            {
+              "merchantName": "New Merchant",
+              "merchantAddress": "City, Country",
+              "merchantDescription": "Description for New Merchant"
+            }
+          </code></pre>
+          <p class="api-desc">Example Response:</p>
+          <pre><code>
+            {
+              "_id": "newMerchantId",
+              "merchantName": "New Merchant",
+              "merchantAddress": "City, Country",
+              "merchantDescription": "Description for New Merchant",
+              "createdAt": "YYYY-MM-DDT10:12:34.567Z",
+              "updatedAt": "YYYY-MM-DDT11:23:45.678Z",
+              "__v": 0
+            }
           </code></pre>
         </div>
       </div>
@@ -284,21 +332,55 @@ FormData:
         <div class="api-usage">
           <div class="code-block">
             <code>
-              GET /api/product/items
+              GET /api/quote/getQuote?p=productId&m=merchantId
             </code>
           </div>
-          <p class="api-desc">Return all the products. Example:</p>
+          <p class="api-desc">Get the price quote for a merchant and product delivered by them.</p>
+          <p class="api-desc">Query Parameters:</p>
           <pre><code>
-{
-  "_id": "abcd2",
-  "merchantIds": [],
-  "productName": "Product 2",
-  "imageLink": "Link",
-  "productDescription": "Product 2 description",
-  "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
-  "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
-  "__v": 0
-}
+            {
+              "p": "productId1",
+              "m": "merchantId1"
+            }
+          </code></pre>
+          <p class="api-desc">Example Response:</p>
+          <pre><code>
+            {
+              "_id": "quoteId1",
+              "productId": "productId1",
+              "merchantId": "merchantId1",
+              "price": 49.99,
+              "createdAt": "YYYY-MM-DDT08:45:12.345Z",
+              "updatedAt": "YYYY-MM-DDT09:56:23.456Z",
+              "__v": 0
+            }
+          </code></pre>
+        </div>
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              POST /api/quote/create/:merchantId
+            </code>
+          </div>
+          <p class="api-desc">Create a new quote for a merchant with ID ${merchantId}.</p>
+          <p class="api-desc">Example Request body:</p>
+          <pre><code>
+            {
+              "productId": "productId1",
+              "sellingPrice": 70000
+            }
+          </code></pre>
+          <p class="api-desc">Example Response:</p>
+          <pre><code>
+            {
+              "_id": "newQuoteId",
+              "productId": "productId1",
+              "merchantId": "merchantId1",
+              "sellingPrice": 70000,
+              "createdAt": "YYYY-MM-DDT10:12:34.567Z",
+              "updatedAt": "YYYY-MM-DDT11:23:45.678Z",
+              "__v": 0
+            }
           </code></pre>
         </div>
       </div>
