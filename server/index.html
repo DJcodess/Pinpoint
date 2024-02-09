@@ -99,12 +99,12 @@
     <div class="api-box">
       <h2><a class="api-link" href="#">Pincode API</a></h2>
 
-      <button class="collapsible"><code>/api/checkService</code></button>
+      <button class="collapsible"><code>/api/pincode</code></button>
       <div class="content">
         <div class="api-usage">
           <div class="code-block">
             <code>
-              GET /api/checkService/:merchantId/:pincode
+              GET /api/pincode/:merchantId/:pincode
             </code>
           </div>
           <p class="api-desc">Check if a pincode is serviced by a merchant.</p>
@@ -121,17 +121,14 @@
 }
 </code></pre>
         </div>
-      </div>
-
-      <button class="collapsible"><code>/api/upload</code></button>
-      <div class="content">
         <div class="api-usage">
           <div class="code-block">
             <code>
-              POST /api/upload/:merchantId
+              POST /api/pincode/:merchantId
             </code>
           </div>
-          <p class="api-desc">Upload a CSV file containing the pincodes for a merchant under the column named pincode and set pincodes for a merchant with the provided ID. The pincodes are
+          <p class="api-desc">Upload a CSV file containing the pincodes for a merchant under the column named pincode
+            and set pincodes for a merchant with the provided ID. The pincodes are
             added as values in a Redis set against the key <code>merchant:${merchantId}</code></p>
           <p class="api-desc">Example Request:</p>
           <pre><code>
@@ -142,7 +139,7 @@ FormData:
           <pre><code>
 'CSV processing complete, added the pincodes successfully'
 </code></pre>
-          <p class="api-desc">Example Image:</p>
+          <p class="api-desc">Example of <code>csvFile</code> in request:</p>
           <img src="images/csvExample.png" alt="Example Image" class="example-img">
         </div>
       </div>
