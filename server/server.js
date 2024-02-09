@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const envconfig = require("dotenv").config();
 const productRoutes = require("./routes/product_routes");
 const merchantRoutes = require("./routes/merchant_routes");
-const getRedis = require('./routes/getRedis');
-const setRedis = require('./routes/setRedis');
+// const getRedis = require('./routes/getRedis');
+// const setRedis = require('./routes/setRedis');
+const pincodeRoutes = require("./routes/pincode_routes");
 const redis = require('redis');
 const quoteRoutes = require("./routes/quote_routes");
 
@@ -37,8 +38,9 @@ app.get("/", (req, res) => {
 // Mounting remaining routes.
 app.use("/api/product", productRoutes);
 app.use("/api/merchant", merchantRoutes);
-app.use("/api/upload", setRedis);
-app.use("/api/checkService", getRedis);
+app.use("/api/pincode", pincodeRoutes);
+// app.use("/api/upload", setRedis);
+// app.use("/api/checkService", getRedis);
 app.use("/api/quote", quoteRoutes);
 
 // Function to close connection.
