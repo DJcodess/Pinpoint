@@ -31,7 +31,7 @@ app.use(express.json());
 
 // Home route.
 app.get("/", (req, res) => {
-  res.send("Welcome to PinPoint server-side API");
+  res.sendFile(__dirname + '/index.html'); 
 });
 
 // Mounting remaining routes.
