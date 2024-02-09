@@ -1,69 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>APIs</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5f5f5;
-  }
-  .container {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-  }
-  .api-box {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 20px;
-  }
-  .api-link {
-    text-decoration: none;
-    color: #007bff;
-    font-weight: bold;
-  }
-  .api-link:hover {
-    text-decoration: underline;
-  }
-  .api-desc {
-    margin-top: 5px;
-    margin-bottom: 15px;
-    color: #666;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APIs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .api-box {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    .api-link {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .api-link:hover {
+      text-decoration: underline;
+    }
+
+    .api-desc {
+      margin-top: 5px;
+      margin-bottom: 15px;
+      color: #666;
+    }
+
+    .api-usage {
+      margin-top: 5px;
+      background-color: #f9f9f9;
+      padding: 5px;
+      border-radius: 8px;
+    }
+
+    .code-block {
+      background-color: #f0f0f0;
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .collapsible {
+      background-color: #cecece;
+      margin: 2px;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+    }
+
+    .content {
+      padding: 0 18px;
+      display: none;
+      overflow: hidden;
+    }
+  </style>
 </head>
+
 <body>
   <div class="container">
     <h1>Welcome to Pinpoint Server Side APIs!</h1>
+
+
     <div class="api-box">
-      <h2><a class="api-link" href="/api/product">Product API</a></h2>
-      <p class="api-desc">Example: Get all products: <code>GET /api/product</code></p>
+      <h2><a class="api-link" href="#">Pincode API</a></h2>
+
+      <button class="collapsible"><code>/api/checkService</code></button>
+      <div class="content">
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              GET /api/checkService/:merchantId/:pincode
+            </code>
+          </div>
+          <p class="api-desc">Check if a pincode is serviced by a merchant.</p>
+          <p class="api-desc">Example Response (Pincode is serviced):</p>
+          <pre><code>
+            {
+              "serviced": true
+            }
+          </code></pre>
+          <p class="api-desc">Example Response (Pincode is not serviced):</p>
+          <pre><code>
+            {
+              "serviced": false
+            }
+          </code></pre>
+        </div>
+      </div>
+
+      <button class="collapsible"><code>/api/upload</code></button>
+      <div class="content">
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              POST /api/upload/:merchantId
+            </code>
+          </div>
+          <p class="api-desc">Upload a CSV file and set pincodes for a merchant with the provided ID. The pincodes are
+            added as values in a Redis set against the key <code>merchant:${merchantId}</code></p>
+          <p class="api-desc">Example Request:</p>
+          <pre><code>
+            FormData:
+              - csvFile: [CSV File]
+          </code></pre>
+          <p class="api-desc">Example Response:</p>
+          <pre><code>
+            'CSV processing complete, added the pincodes successfully'
+          </code></pre>
+        </div>
+      </div>
+
     </div>
+
+
     <div class="api-box">
-      <h2><a class="api-link" href="/api/merchant">Merchant API</a></h2>
-      <p class="api-desc">Example: Get merchant details: <code>GET /api/merchant/:id</code></p>
+      <h2><a class="api-link" href="#">Product API</a></h2>
+      <button class="collapsible"><code>/api/product</code></button>
+      <div class="content">
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+            GET /api/product/items
+          </code>
+          </div>
+          <p class="api-desc">Return all the products. Example:</p>
+          <pre><code>
+          [
+            {
+              "_id": "abcd1",
+              "merchantIds": [],
+              "productName": "Product 1",
+              "imageLink": "Link",
+              "productDescription": "Product 1 description",
+              "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
+              "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
+              "__v": 0
+            },
+            {
+              "_id": "abcd2",
+              "merchantIds": [],
+              "productName": "Product 2",
+              "imageLink": "Link",
+              "productDescription": "Product 2 description",
+              "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
+              "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
+              "__v": 0
+            }
+          ]
+          </code></pre>
+        </div>
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+            GET /api/product/items/:id
+          </code>
+          </div>
+          <p class="api-desc">Retrieve detailed information about a specific product based on its unique identifier.
+            Example:</p>
+          <pre><code>
+          {
+            "_id": "abcd1",
+            "merchantIds": [],
+            "productName": "Product 1",
+            "imageLink": "Link",
+            "productDescription": "Product 1 description",
+            "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
+            "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
+            "__v": 0
+          }
+          </code></pre>
+        </div>
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              POST /api/product/create
+            </code>
+          </div>
+          <p class="api-desc">Create a new product with the provided details. Request body:</p>
+          <pre><code>
+            {
+              "productName": "New Product",
+              "imageLink": "Image Link",
+              "productDescription": "Product Description"
+            }
+          </code></pre>
+        </div>
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              POST /api/product/insert/:id
+            </code>
+          </div>
+          <p class="api-desc">Append a list of merchant IDs to an existing product. Request body:</p>
+          <pre><code>
+            {
+              "merchantsArr": ["merchantId1", "merchantId2", "merchantId3"]
+            }
+          </code></pre>
+        </div>
+      </div>
     </div>
+
+
     <div class="api-box">
-      <h2><a class="api-link" href="/api/upload">Upload API</a></h2>
-      <p class="api-desc">Example: Upload a file: <code>POST /api/upload</code></p>
+      <h2><a class="api-link" href="#">Merchant API</a></h2>
+      <button class="collapsible"><code>/api/merchant</code></button>
+      <div class="content">
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              GET /api/merchant/merchants
+            </code>
+          </div>
+          <p class="api-desc">Get a list of all merchants.</p>
+          <p class="api-desc">Example Response:</p>
+          <pre><code>
+            [
+              {
+                "_id": "merchantId1",
+                "merchantName": "Merchant 1",
+                "merchantAddress": "City, Country",
+                "merchantDescription": "Description for Merchant 1",
+                "createdAt": "2023-01-01T12:34:56.789Z",
+                "updatedAt": "2023-02-01T13:45:12.345Z",
+                "__v": 0
+              },
+              {
+                "_id": "merchantId2",
+                "merchantName": "Merchant 2",
+                "merchantAddress": "City, Country",
+                "merchantDescription": "Description for Merchant 2",
+                "createdAt": "2023-03-01T14:56:23.456Z",
+                "updatedAt": "2023-04-01T16:12:34.567Z",
+                "__v": 0
+              }
+            ]
+          </code></pre>
+        </div>
+      </div>
     </div>
+
     <div class="api-box">
-      <h2><a class="api-link" href="/api/checkService">Check Service API</a></h2>
-      <p class="api-desc">Example: Check service availability: <code>GET /api/checkService/:pincode</code></p>
+      <h2><a class="api-link" href="#">Quote API</a></h2>
+      <button class="collapsible"><code>/api/quote</code></button>
+      <div class="content">
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              GET /api/product/items
+            </code>
+          </div>
+          <p class="api-desc">Return all the products. Example:</p>
+          <pre><code>
+            {
+                "_id": "abcd2",
+                "merchantIds": [],
+                "productName": "Product 2",
+                "imageLink": "Link",
+                "productDescription": "Product 2 description",
+                "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
+                "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
+                "__v": 0
+            }
+            </code></pre>
+        </div>
+      </div>
     </div>
+
   </div>
+
+
+  </div>
+
+
+  </div>
+
+  <script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+  </script>
 </body>
+
 </html>

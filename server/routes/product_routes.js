@@ -3,6 +3,31 @@ const Product = require("../models/Product");
 const Merchant = require("../models/Merchant");
 const router = express.Router();
 
+// Getting a list of all products.
+router.get("/items", async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Getting specific product by its ID.
+router.get("/items/:id", async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    res.json(product);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 // Creating a new product.
 router.post("/create", async (req, res) => {
   try {
@@ -42,31 +67,6 @@ router.post("/insert/:id", async (req, res) => {
     currProduct.merchantIds = currProduct.merchantIds.concat(merchantsArr);
     const savedProduct = await currProduct.save();
     res.status(200).json(savedProduct);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-// Getting a list of all products.
-router.get("/items", async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.json(products);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
-// Getting specific product by its ID.
-router.get("/items/:id", async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-    if (!product) {
-      return res.status(404).json({ error: "Product not found" });
-    }
-    res.json(product);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal Server Error" });
