@@ -14,10 +14,10 @@ Considering there are more than _30K_ pincodes and at least _100 million_ mercha
 Our solution for this problem can be summarized as follows:
 
 - For storing data at-scale, we use a document-based NoSQL Database ([MongoDB](https://www.mongodb.com/), hosted at Google Cloud) as our `primary DB`. This is used to store the majority of data relating to products, merchants, prices, etc.
-- For making fast queries, and accessing frequently-used data, we store a mapping of merchant to set of serviceable pincodes in ([Redis](https://redis.io/), hosted at Google Cloud), as our `cache`. This is used to check if a particular merchant services a given pincode.
+- For making fast queries, and accessing frequently-used data, we store a mapping of merchant to set of serviceable pincodes in ([Redis](https://redis.io/), hosted at Google Cloud), as our `secondary DB`. This is used to check if a particular merchant services a given pincode.
 - We create a simple API using [Express](https://expressjs.com/) to serve the data and interact with our 2 databases using `POST` and `GET` methods.
 - When a user opens the ecommerce page for any product, product details are fetched from primary DB and stored in client-side, which includes the list of merchants that deliver that product.
-- Once the user enters their pincode to check the serviceability, the list of merchants is traversed, and a query is made to see if the merchant sells the product.
+- Once the user enters their pincode to check the serviceability, the list of merchants is traversed, and a query is made to see if the merchant sells the product from secondary DB or cache.
 - If there is a match, the merchant is displayed to the user along with the price quote.
 
 ## Demo
@@ -34,33 +34,21 @@ We have used Redis (or any main memory caching mechanism) for making the query f
 
 ## API Reference
 
-#### Get all items
-
-```http
-  GET /api/product/items
-```
-
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
-
-#### Get item
-
-```http
-  GET /api/product/items/${id}
-```
-
-| Parameter | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `id`      | `string` | **Required**. Id of item to fetch |
+[API Documentation](/server/index.html)
 
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
 
-`API_KEY`
-
 `MONGODB_URI`
+
+`REDIS_HOST`
+
+`REDIS_PORT`
+
+`REDIS_USER`
+
+`REDIS_PASSWORD`
 
 ## Authors
 
