@@ -6,7 +6,7 @@ const fs = require('fs');
 const redis = require('redis');
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' }); // Destination folder for uploaded files
+const upload = multer({ dest: '/tmp' }); // Destination folder for uploaded files
 const client = redis.createClient({
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
