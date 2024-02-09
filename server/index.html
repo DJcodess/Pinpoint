@@ -81,6 +81,13 @@
       display: none;
       overflow: hidden;
     }
+
+    .example-img {
+      display: block;
+      margin: 10px auto;
+      max-width: 80%;
+      height: auto;
+    }
   </style>
 </head>
 
@@ -103,16 +110,16 @@
           <p class="api-desc">Check if a pincode is serviced by a merchant.</p>
           <p class="api-desc">Example Response (Pincode is serviced):</p>
           <pre><code>
-            {
-              "serviced": true
-            }
-          </code></pre>
+{
+  "serviced": true
+}
+</code></pre>
           <p class="api-desc">Example Response (Pincode is not serviced):</p>
           <pre><code>
-            {
-              "serviced": false
-            }
-          </code></pre>
+{
+  "serviced": false
+}
+</code></pre>
         </div>
       </div>
 
@@ -124,17 +131,19 @@
               POST /api/upload/:merchantId
             </code>
           </div>
-          <p class="api-desc">Upload a CSV file and set pincodes for a merchant with the provided ID. The pincodes are
+          <p class="api-desc">Upload a CSV file containing the pincodes for a merchant under the column named pincode and set pincodes for a merchant with the provided ID. The pincodes are
             added as values in a Redis set against the key <code>merchant:${merchantId}</code></p>
           <p class="api-desc">Example Request:</p>
           <pre><code>
-            FormData:
-              - csvFile: [CSV File]
-          </code></pre>
+FormData:
+  - csvFile: [CSV File]
+</code></pre>
           <p class="api-desc">Example Response:</p>
           <pre><code>
-            'CSV processing complete, added the pincodes successfully'
-          </code></pre>
+'CSV processing complete, added the pincodes successfully'
+</code></pre>
+          <p class="api-desc">Example Image:</p>
+          <img src="images/csvExample.png" alt="Example Image" class="example-img">
         </div>
       </div>
 
@@ -153,28 +162,28 @@
           </div>
           <p class="api-desc">Return all the products. Example:</p>
           <pre><code>
-          [
-            {
-              "_id": "abcd1",
-              "merchantIds": [],
-              "productName": "Product 1",
-              "imageLink": "Link",
-              "productDescription": "Product 1 description",
-              "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
-              "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
-              "__v": 0
-            },
-            {
-              "_id": "abcd2",
-              "merchantIds": [],
-              "productName": "Product 2",
-              "imageLink": "Link",
-              "productDescription": "Product 2 description",
-              "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
-              "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
-              "__v": 0
-            }
-          ]
+[
+  {
+    "_id": "abcd1",
+    "merchantIds": [],
+    "productName": "Product 1",
+    "imageLink": "Link",
+    "productDescription": "Product 1 description",
+    "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
+    "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
+    "__v": 0
+  },
+  {
+    "_id": "abcd2",
+    "merchantIds": [],
+    "productName": "Product 2",
+    "imageLink": "Link",
+    "productDescription": "Product 2 description",
+    "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
+    "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
+    "__v": 0
+  }
+]
           </code></pre>
         </div>
         <div class="api-usage">
@@ -186,16 +195,16 @@
           <p class="api-desc">Retrieve detailed information about a specific product based on its unique identifier.
             Example:</p>
           <pre><code>
-          {
-            "_id": "abcd1",
-            "merchantIds": [],
-            "productName": "Product 1",
-            "imageLink": "Link",
-            "productDescription": "Product 1 description",
-            "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
-            "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
-            "__v": 0
-          }
+{
+  "_id": "abcd1",
+  "merchantIds": [],
+  "productName": "Product 1",
+  "imageLink": "Link",
+  "productDescription": "Product 1 description",
+  "createdAt": "YYY-MM-DDTHH:MM:SS.285Z",
+  "updatedAt": "YYY-MM-DDTHH:MM:SS.285Z",
+  "__v": 0
+}
           </code></pre>
         </div>
         <div class="api-usage">
@@ -206,11 +215,11 @@
           </div>
           <p class="api-desc">Create a new product with the provided details. Request body:</p>
           <pre><code>
-            {
-              "productName": "New Product",
-              "imageLink": "Image Link",
-              "productDescription": "Product Description"
-            }
+{
+  "productName": "New Product",
+  "imageLink": "Image Link",
+  "productDescription": "Product Description"
+}
           </code></pre>
         </div>
         <div class="api-usage">
@@ -221,9 +230,9 @@
           </div>
           <p class="api-desc">Append a list of merchant IDs to an existing product. Request body:</p>
           <pre><code>
-            {
-              "merchantsArr": ["merchantId1", "merchantId2", "merchantId3"]
-            }
+{
+  "merchantsArr": ["merchantId1", "merchantId2", "merchantId3"]
+}
           </code></pre>
         </div>
       </div>
@@ -376,12 +385,6 @@
         </div>
       </div>
     </div>
-
-  </div>
-
-
-  </div>
-
 
   </div>
 
