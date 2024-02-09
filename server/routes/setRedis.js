@@ -47,12 +47,10 @@ router.post('/:merchantId', upload.single('csvFile'), (req, res) => {
         .on('end', () => {
             console.log('CSV processing complete');
             res.status(200).send('CSV processing complete, added the pincodes successfully');
-            client.quit(); // Close Redis client after processing is complete
         })
         .on('error', (err) => {
             console.error('Error parsing CSV:', err);
             res.status(500).send('Error parsing CSV');
-            client.quit(); // Close Redis client on error
         });
 });
 
