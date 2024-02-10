@@ -37,7 +37,7 @@ const Ecommerce = () => {
         let serviceableMerchants = []
         for (let i = 0; i < merchIds.length; i++) {
             try {
-                const url = "/pincode/" + merchIds[i] + "/" + pincode;
+                const url = "/api/pincode/" + merchIds[i] + "/" + pincode;
                 const response = await makeGETRequest(url);
                 if (response["serviced"]) {
                     serviceableMerchants.append(merchIds[i]);

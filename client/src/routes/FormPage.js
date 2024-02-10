@@ -11,19 +11,23 @@ const FormPage = () => {
     const handleFormSubmit = async () => {
         if (!csvFile) {
             alert('Please upload a CSV file before submitting the form.');
-            return; // exit immediately if there is no CSV file
+            return; // Exit the function early if no CSV file is selected
         }
-        const url = "/upload/" + merchID;
+    
+        const url = "/api/pincode/" + merchID;
         const formData = new FormData();
         formData.append("csvFile", csvFile);
     
         try {
             const response = await makePOSTRequest(url, formData);
             console.log(response);
+            alert('Form submitted successfully!');
         } catch (error) {
             console.error('Error:', error);
+            alert('An error occurred while submitting the form. Please try again later.');
         }
-    };    
+    };
+        
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

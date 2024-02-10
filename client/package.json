@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8000",
   "dependencies": {
     "@react-three/drei": "^9.80.3",
     "@react-three/fiber": "^8.13.6",
