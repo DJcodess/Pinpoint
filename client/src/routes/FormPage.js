@@ -13,7 +13,8 @@ import { Icon } from '@iconify/react';
 const FormPage = () => {
 
     const handleFormSubmit = async () => {
-        const url = "/upload/" + merchID;
+        // Endpoint for .../api/${url}
+        const url = "/pincode/" + merchID;
         const formData = new FormData();
         formData.append("csvFile", csvFile); // Append the CSV file to FormData
     
@@ -25,7 +26,7 @@ const FormPage = () => {
             console.error('Error:', error);
             // Handle errors appropriately
         }
-    };    
+    };
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
