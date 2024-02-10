@@ -14,7 +14,7 @@ const FormPage = () => {
             return; // Exit the function early if no CSV file is selected
         }
     
-        const url = "/api/pincode/" + merchID;
+        const url = "/pincode/" + merchID;
         const formData = new FormData();
         formData.append("csvFile", csvFile);
     
