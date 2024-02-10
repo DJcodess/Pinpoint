@@ -34,7 +34,9 @@ We have used Redis (or any main memory caching mechanism) for making the query f
 
 ## API Reference
 
-[API Documentation](/server/index.html)
+[API Documentation](https://long-facet-413714.el.r.appspot.com/) &mdash; Hosted on Google Cloud
+
+[Raw Link](/server/index.html)
 
 ## Environment Variables
 
