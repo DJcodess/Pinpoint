@@ -8,7 +8,7 @@ const redis = require('redis');
 const quoteRoutes = require("./routes/quote_routes");
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 8000;
 
 const CONNECTION_MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://localhost/testdb";
