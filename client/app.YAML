@@ -1,0 +1,18 @@
+runtime: nodejs20
+service: default
+
+handlers:
+  # Serve static files under /static URL path
+  - url: /static
+    static_dir: build/static
+
+  # Serve static files with specific extensions
+  - url: /(.*\.(json|ico|js))$
+    static_files: build/\1
+    upload: build/.*\.(json|ico|js)$
+
+  # Serve index.html for all other URLs
+  - url: .*
+    static_files: build/index.html
+    upload: build/index.html
+

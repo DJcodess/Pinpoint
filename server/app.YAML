@@ -13,4 +13,5 @@
 
 # [START app_yaml]
 runtime: nodejs20
+service: api
 # [END app_yaml]
