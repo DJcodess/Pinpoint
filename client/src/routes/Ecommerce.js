@@ -2,20 +2,65 @@ import React, { useState } from 'react';
 import { Icon } from '@iconify/react';
 import Watch from '../assets/images/watch.png';
 import ONDC from '../assets/images/ondc.svg';
+import { makeGETRequest, makePOSTRequest } from '../utils/serverHelper';
 
 const Ecommerce = () => {
     const [pincode, setPincode] = useState('');
     const [showUnderDeliverable, setShowUnderDeliverable] = useState(false);
     const [checked, setChecked] = useState(false);
     const [blurButtons, setBlurButtons] = useState(true);
+    // Hard-coded watch productID.
+    const [productId, setProductId] = useState("94bc33bf-4186-4735-8da9-992aebcd11eb");
+    const [merchIds, setMerchIds] = useState([
+        "c2f307a7-bd0e-4a70-abdd-22123cc6c2df",
+        "5cb97d9a-176c-43ea-bc50-372d9b0216ed",
+        "cfad73b7-eed1-4d3c-8b83-df02b790ec5a"
+    ]);
 
-    const handleCheck = () => {
+    const handleCheck = async () => {
         setChecked(true);
-        if (pincode === '250001') {
+
+        // TODO: MongoDB part remaining. Hard-coded for now:
+
+
+        console.log(merchIds.length);
+        if (merchIds.length > 0) {
+            console.log("Merchant IDs are: " + merchIds);
+
             setShowUnderDeliverable(true);
             setBlurButtons(false);
+        } else {
+            console.log("No merchants sell this product");
+            return;
         }
+
+        let serviceableMerchants = []
+        for (let i = 0; i < merchIds.length; i++) {
+            try {
+                const url = "/pincode/" + merchIds[i] + "/" + pincode;
+                const response = await makeGETRequest(url);
+                if (response["serviced"]) {
+                    serviceableMerchants.append(merchIds[i]);
+                }
+            } catch (err) {
+                console.log(`Error checking pincode for merchantId ${merchIds[i]}: `, err);
+            }
+        }
+        console.log("Merchants that deliver to pincode: ", serviceableMerchants);
     };
+
+    // TODO: Use MongoDB to fetch merchIds for the prodId on page click.
+    // const returnMerchantIds = async (prodId) => {
+    //     try {
+    //         const url = "/product/items/" + prodId;
+    //         const response = await makeGETRequest(url, []);
+    //         console.log(response);
+    //         const fetchResponse = response["merchantIds"];
+    //         return fetchResponse;
+    //     } catch (error) {
+    //         console.error('Error fetching product:', error);
+    //     }
+    // }
 
     const handlePincodeChange = (e) => {
         setPincode(e.target.value);
