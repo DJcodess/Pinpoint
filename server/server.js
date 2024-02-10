@@ -6,6 +6,7 @@ const merchantRoutes = require("./routes/merchant_routes");
 const pincodeRoutes = require("./routes/pincode_routes");
 const redis = require('redis');
 const quoteRoutes = require("./routes/quote_routes");
+const cors = require('cors');
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -25,6 +26,10 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
   console.log("Connected to MongoDB");
 });
+
+// For CORS.
+app.use(cors());
+
 // For parsing JSON in req.body.
 app.use(express.json());
 
