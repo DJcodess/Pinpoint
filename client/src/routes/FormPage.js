@@ -1,9 +1,5 @@
 import store from '../assets/images/store.png';
 import { Link } from "react-router-dom";
-import TextInput from '../components/TextInput.js';
-import PasswordInput from '../components/PasswordInput';
-import Upload from '../components/Upload';
-import Drone from '../components/Drone';
 import PinPointName from '../assets/images/pinpointName.svg'; 
 import ONDC from '../assets/images/ondc.svg'; 
 import { makeGETRequest, makePOSTRequest } from '../utils/serverHelper';
@@ -13,20 +9,25 @@ import { Icon } from '@iconify/react';
 const FormPage = () => {
 
     const handleFormSubmit = async () => {
-        // Endpoint for .../api/${url}
-        const url = "/pincode/" + merchID;
+        if (!csvFile) {
+            alert('Please upload a CSV file before submitting the form.');
+            return; // Exit the function early if no CSV file is selected
+        }
+    
+        const url = "/api/pincode/" + merchID;
         const formData = new FormData();
-        formData.append("csvFile", csvFile); // Append the CSV file to FormData
+        formData.append("csvFile", csvFile);
     
         try {
             const response = await makePOSTRequest(url, formData);
             console.log(response);
-            // Display a success alert or handle the response as needed
+            alert('Form submitted successfully!');
         } catch (error) {
             console.error('Error:', error);
-            // Handle errors appropriately
+            alert('An error occurred while submitting the form. Please try again later.');
         }
     };
+        
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

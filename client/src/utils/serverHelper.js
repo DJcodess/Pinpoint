@@ -1,18 +1,18 @@
-import { backendUrl } from './config';
+// import { backendUrl } from './config';
 
 export const makePOSTRequest = async (route, body) => {
-    const response = await fetch(backendUrl + route, {
+    const response = await fetch( route, {
         method: 'POST',
         body: body, // Pass FormData directly as body
     });
 
-    // const formattedResponse = await response.json();
-    // return formattedResponse;
-	return response;
+    const formattedResponse = await response.json();
+    return formattedResponse;
+	// return response;
 };
 
 export const makeGETRequest = async (route, body) => {
-	const response = await fetch(backendUrl + route, {
+	const response = await fetch( route, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
