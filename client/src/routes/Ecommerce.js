@@ -16,6 +16,8 @@ const Ecommerce = () => {
         "2bcc5b15-c9c5-4f51-b800-e0ef3e17d2c9",
         "14ed3a6e-9e3f-49bf-a9fb-242ce028408e"
     ]);
+    // Merchants that service.
+    const [okMerchants, setOkMerchants] = useState([]);
 
     // To store merchIds when the product page component renders (i.e. product is clicked).
     useEffect (() => {
@@ -60,11 +62,32 @@ const Ecommerce = () => {
         // For testing.
         console.log("Merchants that deliver to pincode: ", serviceableMerchants);
 
+        for (let i = 0; i < serviceableMerchants.length; i++) {
+            try {
+                // GET request for Product API.
+                const merchantUrl = "/merchant/merchants/" + serviceableMerchants[i];
+                const merchantResponse = await makeGETRequest(merchantUrl);
+                // GET request for Quote API.
+                const quoteUrl = "/quote/getQuote?p=" + productId + "&m=" + serviceableMerchants[i];
+                const quoteResponse = await makeGETRequest(quoteUrl);
+                // Creating Merchant Details to show.
+                let merchantDetails = {
+                    merchantId: merchantResponse["_id"],
+                    merchantName: merchantResponse["merchantName"],
+                    merchantDescription: merchantResponse["merchantDescription"],
+                    price: quoteResponse["price"]
+                }
+                // For testing.
+                console.log("Merchant: ", merchantDetails);
+                // TODO: Change state.
+            } catch (err) {
+                console.log(`Error in fetching merchant and quote details for the merchant ID: ${serviceableMerchants[i]}: `. err);
+            }
+        }
         
 
     };
 
-    // TODO: Use MongoDB to fetch merchIds for the prodId on page click.
     const returnMerchantIds = async (prodId) => {
         try {
             const url = "/product/items/" + prodId;
@@ -152,7 +175,7 @@ const Ecommerce = () => {
                         )}
                     </div>
                     <div className="px-16 flex mt-6 gap-x-4 items-center">
-                        
+                        {/* TODO: Running a loop to render. */}
                     </div>
                     <div className="px-16 flex mt-16 gap-x-4">
                         <div className={`py-2.5 px-8 gap-x-2 bg-dodgeblue rounded-lg border border-dodgeblue flex justify-start items-center ${blurButtons ? 'blur-sm' : ''}`}>
