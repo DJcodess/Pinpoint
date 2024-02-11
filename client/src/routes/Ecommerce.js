@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import Watch from '../assets/images/watch.png';
 import ONDC from '../assets/images/ondc.svg';
 import { makeGETRequest, makePOSTRequest } from '../utils/serverHelper';
+import OkayMerchant from '../components/OkayMerchant.js'
 
 const Ecommerce = () => {
     const [pincode, setPincode] = useState('');
@@ -36,6 +37,8 @@ const Ecommerce = () => {
 
     const handleCheck = async () => {
         setChecked(true);
+        // Clearing existing okMerchants to prevent double display.
+        setOkMerchants([]);
 
         if (merchIds.length > 0) {
             // For testing.
@@ -62,6 +65,7 @@ const Ecommerce = () => {
         // For testing.
         console.log("Merchants that deliver to pincode: ", serviceableMerchants);
 
+        let fetchedOkMerchants = []
         for (let i = 0; i < serviceableMerchants.length; i++) {
             try {
                 // GET request for Product API.
@@ -75,16 +79,18 @@ const Ecommerce = () => {
                     merchantId: merchantResponse["_id"],
                     merchantName: merchantResponse["merchantName"],
                     merchantDescription: merchantResponse["merchantDescription"],
-                    price: quoteResponse["price"]
+                    sellingPrice: quoteResponse["sellingPrice"]
                 }
                 // For testing.
                 console.log("Merchant: ", merchantDetails);
                 // TODO: Change state.
+                fetchedOkMerchants.push(merchantDetails);
             } catch (err) {
                 console.log(`Error in fetching merchant and quote details for the merchant ID: ${serviceableMerchants[i]}: `. err);
             }
         }
         
+        setOkMerchants(fetchedOkMerchants);
 
     };
 
@@ -175,7 +181,11 @@ const Ecommerce = () => {
                         )}
                     </div>
                     <div className="px-16 flex mt-6 gap-x-4 items-center">
-                        {/* TODO: Running a loop to render. */}
+                        {
+                            okMerchants.map((okMerchant) => {
+                                return (<OkayMerchant merchant={okMerchant} key={okMerchant.merchantId} />)
+                            })
+                        }
                     </div>
                     <div className="px-16 flex mt-16 gap-x-4">
                         <div className={`py-2.5 px-8 gap-x-2 bg-dodgeblue rounded-lg border border-dodgeblue flex justify-start items-center ${blurButtons ? 'blur-sm' : ''}`}>
