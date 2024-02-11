@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import Watch from '../assets/images/watch.png';
 import ONDC from '../assets/images/ondc.svg';
@@ -9,24 +9,35 @@ const Ecommerce = () => {
     const [showUnderDeliverable, setShowUnderDeliverable] = useState(false);
     const [checked, setChecked] = useState(false);
     const [blurButtons, setBlurButtons] = useState(true);
-    // Hard-coded watch productID.
-    const [productId, setProductId] = useState("94bc33bf-4186-4735-8da9-992aebcd11eb");
+    // productId of Sternglas zirkel.
+    const [productId, setProductId] = useState("46b6c84b-93b1-40f8-86b5-196f7a7202d3");
     const [merchIds, setMerchIds] = useState([
-        "c2f307a7-bd0e-4a70-abdd-22123cc6c2df",
-        "5cb97d9a-176c-43ea-bc50-372d9b0216ed",
-        "cfad73b7-eed1-4d3c-8b83-df02b790ec5a"
+        "51ce09c7-17f2-4e7b-97e7-1a63e800d543",
+        "2bcc5b15-c9c5-4f51-b800-e0ef3e17d2c9",
+        "14ed3a6e-9e3f-49bf-a9fb-242ce028408e"
     ]);
+
+    // To store merchIds when the product page component renders (i.e. product is clicked).
+    useEffect (() => {
+        const setMerchIdsOnPageClick = async () => {
+            try {
+                const merchantIdArr = await returnMerchantIds(productId);
+                // For testing.
+                console.log("Received Merchant IDs successfully: ", merchantIdArr);
+                setMerchIds(merchantIdArr);
+            } catch (err) {
+                console.log("Error in getting merchantId data", err);
+            }
+        };
+        setMerchIdsOnPageClick()
+    }, []);
 
     const handleCheck = async () => {
         setChecked(true);
 
-        // TODO: MongoDB part remaining. Hard-coded for now:
-
-
-        console.log(merchIds.length);
         if (merchIds.length > 0) {
-            console.log("Merchant IDs are: " + merchIds);
-
+            // For testing.
+            console.log("Merchant IDs that sell this are: " + merchIds);
             setShowUnderDeliverable(true);
             setBlurButtons(false);
         } else {
@@ -46,21 +57,25 @@ const Ecommerce = () => {
                 console.log(`Error checking pincode for merchantId ${merchIds[i]}: `, err);
             }
         }
+        // For testing.
         console.log("Merchants that deliver to pincode: ", serviceableMerchants);
+
+        
+
     };
 
     // TODO: Use MongoDB to fetch merchIds for the prodId on page click.
-    // const returnMerchantIds = async (prodId) => {
-    //     try {
-    //         const url = "/product/items/" + prodId;
-    //         const response = await makeGETRequest(url, []);
-    //         console.log(response);
-    //         const fetchResponse = response["merchantIds"];
-    //         return fetchResponse;
-    //     } catch (error) {
-    //         console.error('Error fetching product:', error);
-    //     }
-    // }
+    const returnMerchantIds = async (prodId) => {
+        try {
+            const url = "/product/items/" + prodId;
+            const response = await makeGETRequest(url);
+            console.log(response);
+            const fetchResponse = response["merchantIds"];
+            return fetchResponse;
+        } catch (error) {
+            console.error('Error fetching product:', error);
+        }
+    }
 
     const handlePincodeChange = (e) => {
         setPincode(e.target.value);
@@ -135,6 +150,9 @@ const Ecommerce = () => {
                                 <Icon icon="akar-icons:circle-check" width="20" color="#198436" />
                             </div>
                         )}
+                    </div>
+                    <div className="px-16 flex mt-6 gap-x-4 items-center">
+                        
                     </div>
                     <div className="px-16 flex mt-16 gap-x-4">
                         <div className={`py-2.5 px-8 gap-x-2 bg-dodgeblue rounded-lg border border-dodgeblue flex justify-start items-center ${blurButtons ? 'blur-sm' : ''}`}>
