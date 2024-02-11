@@ -26,7 +26,7 @@ Our solution for this problem can be summarized as follows:
 
 ## Demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/oJsdCZuHg3k" frameborder="0" allowfullscreen></iframe>
+[![Watch the video](https://img.youtube.com/vi/oJsdCZuHg3k/0.jpg)](https://www.youtube.com/watch?v=oJsdCZuHg3k)
 
 ## Optimizations
 
