@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import Watch from '../assets/images/watch.png';
+import Watchsmol from '../assets/images/watchsmol.png';
+import WatchBlack from '../assets/images/watchBlack.png';
+import WatchBlue from '../assets/images/watchBlue.png';
+import WatchGreen from '../assets/images/watchGreen.png';
 import ONDC from '../assets/images/ondc.svg';
 import { makeGETRequest, makePOSTRequest } from '../utils/serverHelper';
 import OkayMerchant from '../components/OkayMerchant.js'
@@ -8,6 +12,7 @@ import OkayMerchant from '../components/OkayMerchant.js'
 const Ecommerce = () => {
     const [pincode, setPincode] = useState('');
     const [showUnderDeliverable, setShowUnderDeliverable] = useState(false);
+    const [showUnderNonDeliverable, setShowUnderNonDeliverable] = useState(false);
     const [checked, setChecked] = useState(false);
     const [blurButtons, setBlurButtons] = useState(true);
     // productId of Sternglas zirkel.
@@ -43,10 +48,11 @@ const Ecommerce = () => {
         if (merchIds.length > 0) {
             // For testing.
             console.log("Merchant IDs that sell this are: " + merchIds);
-            setShowUnderDeliverable(true);
+            // setShowUnderDeliverable(true);
             setBlurButtons(false);
         } else {
             console.log("No merchants sell this product");
+            
             return;
         }
 
@@ -64,6 +70,13 @@ const Ecommerce = () => {
         }
         // For testing.
         console.log("Merchants that deliver to pincode: ", serviceableMerchants);
+
+        if (serviceableMerchants.length === 0) {
+            setShowUnderNonDeliverable(true);
+            setBlurButtons(true);
+        } else {
+            setShowUnderDeliverable(true);
+        } 
 
         let fetchedOkMerchants = []
         for (let i = 0; i < serviceableMerchants.length; i++) {
@@ -111,7 +124,7 @@ const Ecommerce = () => {
     };
 
     return (
-        <div className="w-full h-full flex p-8 overflow-hidden font-sans" style={{ background: "linear-gradient(to bottom right, #F6F6F6, #BDBDBD)" }}>
+        <div className="w-full h-full flex p-8 overflow-scroll font-sans" style={{ background: "linear-gradient(to bottom right, #F6F6F6, #BDBDBD)" }}>
             <div className="w-1/2 h-full flex flex-col">
                 <div className='m-4 font-extrabold text-5xl'>
                     <img src={ONDC} alt='pinpoint' className='h-16' />
@@ -142,9 +155,15 @@ const Ecommerce = () => {
                         <p className="text-6xl font-extrabold text-black">Sternglas zirkel</p>
                     </div>
                     <div className="flex mt-10 px-16 gap-x-4 justify-start items-center">
-                        <div className="w-16 h-16 bg-lightgray border border-brown rounded-xl"></div>
-                        <div className="w-16 h-16 bg-lightgray rounded-xl"></div>
-                        <div className="w-16 h-16 bg-lightgray rounded-xl"></div>
+                        <div className="w-16 h-16 bg-lightgray border border-brown rounded-xl p-2">
+                            <img src={Watchsmol} />
+                        </div>
+                        <div className="w-16 h-16 bg-lightgray rounded-xl p-4 flex justify-center items-center">
+                            <img src={WatchBlue} />
+                        </div>
+                        <div className="w-16 h-16 bg-lightgray rounded-xl">
+                        <img src={WatchGreen} />
+                        </div>
                         <div className="ml-3 flex items-center">
                             <p className="text-xl font-light">size:</p>
                             <p className="text-xl font-light ml-1">40</p>
@@ -173,13 +192,29 @@ const Ecommerce = () => {
                                 <p className="text-white tracking-wide font-medium cursor-pointer" onClick={handleCheck}>check</p>
                             </div>
                         )}
-                        {showUnderDeliverable && (
+                        {showUnderNonDeliverable && checked && (
                             <div className="px-6 flex justify-start items-center gap-x-2">
-                                <p className="text-darkgreen text-lg">Under deliverable premises</p>
+                                <p className="text-red-600 text-lg">Outside deliverable premises</p>
+                                <Icon icon="akar-icons:circle-x" width="20" color="#EF4444" />
+                            </div>
+                        )}
+                        {showUnderDeliverable && checked && (
+                            <div className="px-6 flex justify-start items-center gap-x-2">
+                                <p className="text-green-600 text-lg">Under deliverable premises</p>
                                 <Icon icon="akar-icons:circle-check" width="20" color="#198436" />
                             </div>
                         )}
                     </div>
+                    {showUnderNonDeliverable && checked && (
+                            <div className="flex px-16 mt-4 flex justify-start items-center">
+                            <p className="text-gray-500 text-base font-light italic">No seller found</p>
+                          </div>
+                        )}
+                    {showUnderDeliverable && checked && (
+                        <div className="flex px-16 mt-4 flex justify-start items-center">
+                            <p className="text-gray-500 text-base font-light italic">Here's the list of merchants selling Sternglas zirkel</p>
+                        </div>
+                        )}
                     <div className="px-16 flex mt-6 gap-x-4 items-center">
                         {
                             okMerchants.map((okMerchant) => {

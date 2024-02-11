@@ -45,6 +45,7 @@ const Home = () => {
                 <div className='m-6 mx-12 flex flex-row-reverse'>
                 <Link to='/ecommerce' > 
                   <img src={PinPointName} alt='pinpoint'/>
+                  <p className='text-xs text-center text-dodgeblue italic'>click here to view buyer app</p>
                 </Link>
                 </div>
                 <div className='h-40 mt-24 flex flex-row-reverse'>
