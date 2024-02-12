@@ -24,15 +24,23 @@ Our solution for this problem can be summarized as follows:
 
 ![Pinpoint Realtime Query Workflow](/server/images/Pinpoint_workflow.png)
 
+## Optimizations
+
+1. We have used Redis (or any main memory caching mechanism) for making the real-time pincode query fast, as Redis set offers `O(1) set lookup`.
+
+2. To fetch product details quickly, we pull the set of merchantIds that deliver the product on page-click, instead of doing it during the pincode query. Index has been created on `productId`, to further decrease the query time.
+
+3. For each real-time pincode query by User, the membership of the pincode in the Redis set is **asynchronously** checked for each merchantId in `parallel`, significantly reducing latency.
+
+4. `Indexing`is used to further reduce the serviceable merchant display time. *merchantId* is indexed for the merchant details, whereas a combination of *merchantId-productId* has been used to display the pricing.
+
+All these optimizations have been made to improve the user experience.
+
+![Pinpoint Stack Architecture](/server/images/Pinpoint_stack_architecture.png)
+
 ## Demo
 
 [![Watch the video](https://img.youtube.com/vi/oJsdCZuHg3k/0.jpg)](https://www.youtube.com/watch?v=oJsdCZuHg3k)
-
-## Optimizations
-
-We have used Redis (or any main memory caching mechanism) for making the realtime query fast.
-
-![Pinpoint Stack Architecture](/server/images/Pinpoint_stack_architecture.png)
 
 ## API Reference
 

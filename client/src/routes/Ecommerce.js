@@ -17,11 +17,7 @@ const Ecommerce = () => {
     const [blurButtons, setBlurButtons] = useState(true);
     // productId of Sternglas zirkel.
     const [productId, setProductId] = useState("46b6c84b-93b1-40f8-86b5-196f7a7202d3");
-    const [merchIds, setMerchIds] = useState([
-        "51ce09c7-17f2-4e7b-97e7-1a63e800d543",
-        "2bcc5b15-c9c5-4f51-b800-e0ef3e17d2c9",
-        "14ed3a6e-9e3f-49bf-a9fb-242ce028408e"
-    ]);
+    const [merchIds, setMerchIds] = useState([]);
     // Merchants that service.
     const [okMerchants, setOkMerchants] = useState([]);
 
@@ -30,7 +26,7 @@ const Ecommerce = () => {
         const setMerchIdsOnPageClick = async () => {
             try {
                 const merchantIdArr = await returnMerchantIds(productId);
-                // For testing.
+
                 console.log("Received Merchant IDs successfully: ", merchantIdArr);
                 setMerchIds(merchantIdArr);
             } catch (err) {
@@ -42,12 +38,9 @@ const Ecommerce = () => {
 
     const handleCheck = async () => {
         setChecked(true);
-        // Clearing existing okMerchants to prevent double display.
         setOkMerchants([]);
 
         if (merchIds.length > 0) {
-            // For testing.
-            console.log("Merchant IDs that sell this are: " + merchIds);
             // setShowUnderDeliverable(true);
             setBlurButtons(false);
         } else {
@@ -56,36 +49,44 @@ const Ecommerce = () => {
             return;
         }
 
-        let serviceableMerchants = []
-        for (let i = 0; i < merchIds.length; i++) {
+        // Making O(1) constant time asynchronous queries to each Redis pincode set.
+        const serviceableMerchantsPromises = merchIds.map( async (currMerchId) => {
             try {
-                const url = "/pincode/" + merchIds[i] + "/" + pincode;
-                const response = await makeGETRequest(url);
-                if (response["serviced"]) {
-                    serviceableMerchants.push(merchIds[i]);
+                const pincodeUrl = `/pincode/${currMerchId}/${pincode}`;
+                const pincodeRes = await makeGETRequest(pincodeUrl);
+                if (pincodeRes["serviced"]) {
+                    return currMerchId;
+                } else {
+                    return null;
                 }
             } catch (err) {
-                console.log(`Error checking pincode for merchantId ${merchIds[i]}: `, err);
+                console.log(`Error checking pincode for merchantId ${currMerchId}: `, err);
+                return null;
             }
-        }
-        // For testing.
-        console.log("Merchants that deliver to pincode: ", serviceableMerchants);
+        });
 
+        // Awaiting for real-time parallel O(1) queries, 
+        // for each merchant of this product against the Redis pincode set.
+        const serviceableMerchants = (await Promise.all(serviceableMerchantsPromises)).filter(Boolean);
+
+        console.log("Merchants that deliver to pincode: ", serviceableMerchants);
+        // Displaying status for delivery premises (YES or NO).
         if (serviceableMerchants.length === 0) {
             setShowUnderNonDeliverable(true);
             setBlurButtons(true);
+            return;
         } else {
             setShowUnderDeliverable(true);
-        } 
+        }
 
-        let fetchedOkMerchants = []
-        for (let i = 0; i < serviceableMerchants.length; i++) {
+        // Pulling merchant details asynchronously in parallel.
+        const fetchedOkMerchantsPromises = serviceableMerchants.map( async (currServiceableMerchId) => {
             try {
                 // GET request for Product API.
-                const merchantUrl = "/merchant/merchants/" + serviceableMerchants[i];
+                const merchantUrl = `/merchant/merchants/${currServiceableMerchId}`;
                 const merchantResponse = await makeGETRequest(merchantUrl);
                 // GET request for Quote API.
-                const quoteUrl = "/quote/getQuote?p=" + productId + "&m=" + serviceableMerchants[i];
+                const quoteUrl = `/quote/getQuote?p=${productId}&m=${currServiceableMerchId}`;
                 const quoteResponse = await makeGETRequest(quoteUrl);
                 // Creating Merchant Details to show.
                 let merchantDetails = {
@@ -94,15 +95,19 @@ const Ecommerce = () => {
                     merchantDescription: merchantResponse["merchantDescription"],
                     sellingPrice: quoteResponse["sellingPrice"]
                 }
-                // For testing.
-                console.log("Merchant: ", merchantDetails);
-                // TODO: Change state.
-                fetchedOkMerchants.push(merchantDetails);
+                return merchantDetails;
             } catch (err) {
-                console.log(`Error in fetching merchant and quote details for the merchant ID: ${serviceableMerchants[i]}: `. err);
+                console.log(`Error in fetching merchant and quote details for the merchant ID: ${currServiceableMerchId}: ${err}`);
+                return null;
             }
-        }
+        });
+
+        // Awaiting for all the merchant and price details together.
+        const fetchedOkMerchants = (await Promise.all(fetchedOkMerchantsPromises)).filter(Boolean);
         
+        // For testing.
+        console.log("OK Merchants are: ", fetchedOkMerchants);
+
         setOkMerchants(fetchedOkMerchants);
 
     };
