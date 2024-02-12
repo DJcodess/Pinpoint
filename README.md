@@ -2,9 +2,9 @@
 
 ## Optimal Storage and Retrieval for Pincode Serviceability
 
-Hosted on Google Cloud &mdash; [_Website Link_](https://pinpointgcp.df.r.appspot.com)
+Deployed on Google Cloud &mdash; [_Website Link_](https://pinpointgcp.df.r.appspot.com)
 
-PinPoint is an application developed to solve the problem of pincode serviceability for products on the [ONDC](https://ondc.org/) website.
+**PinPoint** is an application developed to solve the problem of pincode serviceability for products on the [ONDC](https://ondc.org/) website.
 
 Using the _seller apps_, merchants are able to define the products & services they can deliver, as well as the pincodes to which they can deliver them.
 
@@ -15,12 +15,13 @@ Considering there are more than _30K_ pincodes and at least _100 million_ mercha
 
 Our solution for this problem can be summarized as follows:
 
-- For storing data at-scale, we use a document-based NoSQL Database ([MongoDB](https://www.mongodb.com/), hosted at Google Cloud) as our `primary DB`. This is used to store the majority of data relating to products, merchants, prices, etc.
-- For making fast queries, and accessing frequently-used data, we store a mapping of merchant to set of serviceable pincodes in ([Redis](https://redis.io/), hosted at Google Cloud), as our `secondary DB`. This is used to check if a particular merchant services a given pincode.
-- We create a simple API using [Express](https://expressjs.com/) to serve the data and interact with our 2 databases using `POST` and `GET` methods.
-- When a user opens the ecommerce page for any product, product details are fetched from primary DB and stored in client-side, which includes the list of merchants that deliver that product.
-- Once the user enters their pincode to check the serviceability, the list of merchants is traversed, and a query is made to see if the merchant sells the product from secondary DB or cache in constant `O(1)` time.
-- If there is a match, the merchant is displayed to the user along with the price quote.
+- For storing data at-scale, we use a document-based NoSQL Database ([MongoDB](https://www.mongodb.com/), hosted at Google Cloud) as our `primary DB`. This is used to store the majority of data relating to products, merchants, price quotes, etc.
+- For making fast queries, and accessing frequently-used data, we store a mapping of "merchant-ID" to "set of serviceable pincodes" in ([Redis](https://redis.io/), hosted at Google Cloud), as our `secondary DB` or in-memory storage. This is used to check if a particular merchant services the given user pincode.
+- We create a simple [API](https://api-dot-pinpointgcp.df.r.appspot.com) using [Express](https://expressjs.com/) to serve the data and interact with our 2 databases using `POST` and `GET` methods.
+- When a user opens the e-commerce page for any product, the product details are fetched from primary DB and stored in client-side, which includes the list of merchant-IDs, for each merchant that delivers the product.
+- Once the user enters their pincode to check the serviceability in their region, the list of merchant-IDs is traversed, and the in-memory `secondary DB` is queried to see if the merchant delivers to that pincode in constant `O(1)` time, parallely for each merchant.
+- If there is a pincode match, the merchant details are displayed to the user along with the price quoted by them, by making a final query to `primary DB`, where appropriate indexes have been created to make the queries even faster.
+- The system is designed to work well with scale, as more merchants are added in the ONDC database.
 
 ![Pinpoint Realtime Query Workflow](/server/images/Pinpoint_workflow.png)
 
@@ -28,11 +29,11 @@ Our solution for this problem can be summarized as follows:
 
 1. We have used Redis (or any main memory caching mechanism) for making the real-time pincode query fast, as Redis set offers `O(1) set lookup`.
 
-2. To fetch product details quickly, we pull the set of merchantIds that deliver the product on page-click, instead of doing it during the pincode query. Index has been created on `productId`, to further decrease the query time.
+2. To fetch product details quickly, we pull the set of merchantIds that deliver the product on page-click, instead of doing it during the pincode query. The `productId` value has been indexed, to further decrease the query time on page component load.
 
-3. For each real-time pincode query by User, the membership of the pincode in the Redis set is **asynchronously** checked for each merchantId in `parallel`, significantly reducing latency.
+3. For each *real-time pincode query* by user, the membership of the pincode in the Redis set is **asynchronously** checked for each merchantId in `parallel`, significantly reducing latency.
 
-4. `Indexing`is used to further reduce the serviceable merchant display time. *merchantId* is indexed for the merchant details, whereas a combination of *merchantId-productId* has been used to display the pricing.
+4. `Indexing` is used to further reduce the time for displaying serviceable merchant details. Here, *merchantId* is indexed for the merchant details, whereas a combination of *merchantId-productId* has been indexed, to fetch and display the quoted pricing.
 
 All these optimizations have been made to improve the user experience.
 
@@ -40,11 +41,13 @@ All these optimizations have been made to improve the user experience.
 
 ## Demo
 
-[![Watch the video](https://img.youtube.com/vi/oJsdCZuHg3k/0.jpg)](https://www.youtube.com/watch?v=oJsdCZuHg3k)
+Demo Video on YouTube:
+
+[![Watch the video](https://img.youtube.com/vi/-sVekrxr684/0.jpg)](https://www.youtube.com/watch?v=-sVekrxr684)
 
 ## API Reference
 
-[API Documentation](https://api-dot-pinpointgcp.df.r.appspot.com) &mdash; Hosted on Google Cloud
+[API Documentation](https://api-dot-pinpointgcp.df.r.appspot.com) &mdash; Deployed on Google Cloud
 
 [Raw Link](/server/index.html)
 
@@ -63,7 +66,7 @@ cd ../client
 npm install
 ```
 
-3. Configure the environment variables.
+3. Configure the environment variables. Start the Express server by running `/server/server.js` in Node.
 
 4. Run the React development server in `/client`.
 ```
