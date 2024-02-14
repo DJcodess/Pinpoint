@@ -226,11 +226,6 @@ const Ecommerce = () => {
                                 return (<OkayMerchant merchant={okMerchant} key={okMerchant.merchantId} />)
                             })
                         }
-                        {
-                            okMerchants.map((okMerchant) => {
-                                return (<OkayMerchant merchant={okMerchant} key={okMerchant.merchantId} />)
-                            })
-                        }
                     </div>
                     <div className="px-16 flex mt-16 gap-x-4">
                         <div className={`py-2.5 px-8 gap-x-2 bg-dodgeblue rounded-lg border border-dodgeblue flex justify-start items-center ${blurButtons ? 'blur-sm' : ''}`}>
