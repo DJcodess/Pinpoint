@@ -220,7 +220,12 @@ const Ecommerce = () => {
                             <p className="text-gray-500 text-base font-light italic">Here's the list of merchants selling Sternglas zirkel</p>
                         </div>
                         )}
-                    <div className="px-16 flex mt-6 gap-x-4 items-center">
+                    <div className="px-16 grid grid-cols-2 mt-6 gap-4 items-center">
+                        {
+                            okMerchants.map((okMerchant) => {
+                                return (<OkayMerchant merchant={okMerchant} key={okMerchant.merchantId} />)
+                            })
+                        }
                         {
                             okMerchants.map((okMerchant) => {
                                 return (<OkayMerchant merchant={okMerchant} key={okMerchant.merchantId} />)
