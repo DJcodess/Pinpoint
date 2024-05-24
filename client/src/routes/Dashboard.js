@@ -113,7 +113,7 @@ const Dashboard = () => {
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
                     <div className="flex justify-between mb-2">
-                        <h3 className="text-lg font-semibold mb-4">Total PinCodes Served (10)</h3>
+                        <h3 className="text-lg font-semibold mb-4">Total PinCodes Serving (10)</h3>
                         <span>See Also: <button className="text-blue-500">Product Catalog</button></span>
                     </div>
                     <div className="max-h-96 overflow-y-auto">
