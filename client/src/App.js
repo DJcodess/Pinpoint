@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import FormPage from './routes/FormPage.js';
 import Home from './routes/Home.js';
 import Ecommerce from './routes/Ecommerce';
-
+import Dashboard from './routes/Dashboard';
 
 function App() {
   return (
@@ -23,6 +23,10 @@ function App() {
             path='/ecommerce'
             element=<Ecommerce />
           />
+          <Route 
+            path='/dashboard'
+            element=<Dashboard />
+          />  
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,6 +1,5 @@
 import logoBig from '../assets/images/logoBig.png';
 import Name from '../assets/images/Name.png';
-import Sparkthon from '../assets/images/Sparkthon.png';
 import { Link } from "react-router-dom";
 import { Icon } from '@iconify/react';
 import PinPointName from '../assets/images/pinpointName.svg'; 
