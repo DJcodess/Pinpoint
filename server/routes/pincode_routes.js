@@ -69,6 +69,22 @@ router.post("/:merchantId/:pincode", (req, res) => {
   });
 });
 
+// POST endpoint to remove a single pincode to the merchant serviceability area.
+router.post("/remove/:merchantId/:pincode", (req, res) => {
+  const merchantId = req.params.merchantId;
+  const pincode = req.params.pincode;
+  client.srem(`merchant:${merchantId}`, pincode, (err, reply) => {
+    if (err) {
+      console.error("Error removing pincode to set:", err);
+      res.status(500).send("Error removing pincode to set");
+    } else {
+      console.log(`Pincode ${pincode} removed from set for merchant ${merchantId}`);
+      res
+        .status(200)
+        .send(`Pincode ${pincode} removed from set for merchant ${merchantId}`);
+    }
+  });
+});
 // POST endpoint to upload CSV file and set pincodes for a merchant.
 router.post("/:merchantId", upload.single("csvFile"), (req, res) => {
   const merchantId = req.params.merchantId;
