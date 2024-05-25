@@ -166,6 +166,7 @@ const Dashboard = () => {
                     <div className="flex justify-between mb-2">
                         <h3 className="text-lg font-semibold mb-4">Total Pincodes Serving ({pincodes.length})</h3>
                     </div>
+                    <p className="text-base	font-base text-red-500">Clear All</p>
                     <div className="max-h-96 overflow-y-auto">
                         <ul>
                             {Array.isArray(pincodes) && pincodes.map((code, index) => (
@@ -178,8 +179,7 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-center">
-                                        <span className="text-sm text-gray-500 mr-4"></span>
-                                        <button className="text-blue-500"></button>
+                                        <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg" />
                                     </div>
                                 </li>
                             ))}
