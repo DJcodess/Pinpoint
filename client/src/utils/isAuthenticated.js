@@ -2,7 +2,7 @@
 import Cookies from 'js-cookie';
 
 const isAuthenticated = () => {
-    const token = Cookies.get('token');
+    const token = Cookies.get('user');
     return !!token; // Returns true if token exists, false otherwise
 };
 

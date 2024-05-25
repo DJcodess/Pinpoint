@@ -165,8 +165,8 @@ const Dashboard = () => {
                 <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
                     <div className="flex justify-between mb-2">
                         <h3 className="text-lg font-semibold mb-4">Total Pincodes Serving ({pincodes.length})</h3>
+                        <p className="text-base	font-base text-red-500 mr-2">Clear All</p>
                     </div>
-                    <p className="text-base	font-base text-red-500">Clear All</p>
                     <div className="max-h-96 overflow-y-auto">
                         <ul>
                             {Array.isArray(pincodes) && pincodes.map((code, index) => (
