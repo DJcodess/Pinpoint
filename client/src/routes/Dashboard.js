@@ -99,7 +99,7 @@ const Dashboard = () => {
             const response = await makeDELETERequest(`/pincode/remove/${merchantId}/${pincode}`);
             updatePincodesList(); // asynchronous call.
             console.log(response);
-            alert('All pincodes deleted successfully!');
+            alert('Selected pincode deleted successfully!');
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while deleting pincodes.');

@@ -56,7 +56,7 @@ const SignUp = () => {
         // For simplicity, we save the user data to a cookie
         const user = { name, address, description, email, password };
         Cookies.set('user', JSON.stringify(user), { expires: 7 });
-        navigate('/dashboard');
+        navigate('/login');
     };
 
     return (
