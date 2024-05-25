@@ -75,7 +75,7 @@ const Dashboard = () => {
             const response = await makePOSTRequest(`/pincode/${merchantId}`, formData);
             updatePincodesList(); // asynchronous call.
             console.log(response);
-            alert('Form submitted successfully!');
+            alert('Pincodes submitted successfully!');
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while submitting the form. Please try again later.');
@@ -90,11 +90,11 @@ const Dashboard = () => {
                 <h2 className="text-xl font-semibold mb-2">Dashboard</h2>
                 <div className="border-b border-gray-300 w-full mb-4"></div>
                 <div className="text-2xl font-bold px-2 py-1 text-gray-900">
-                    <span className="">Hello! Merchant {merchantName}</span>
+                    <span className="">Hello! {merchantName}</span>
                 </div>
                 <div className="flex justify-between mb-6 mt-4 text-darkgray">
                     <div className="w-2/5 flex flex-col items-center border border-gray-300 p-4 justify-evenly rounded-lg">
-                        <p className="text-2xl font-semibold">Enter PinCodes manually</p>
+                        <p className="text-2xl font-semibold">Enter Pincodes manually</p>
                         <div className="flex gap-3 w-full">
                             <input
                                 type="text"
@@ -113,7 +113,7 @@ const Dashboard = () => {
                             <Icon icon="bi:filetype-csv" color="#0174f0" width="60" height="60" />
                             <div className="flex flex-col">
                                 <p className="mt-2 font-semibold text-xl text-darkgray">Import CSV</p>
-                                <p className="text-xs text-gray2">csv file (MAX. 100MB)</p>
+                                <p className="text-xs text-gray2">csv file</p>
                             </div>
                         </div>
                         <div className="flex  items-center w-full gap-3">
@@ -140,8 +140,7 @@ const Dashboard = () => {
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
                     <div className="flex justify-between mb-2">
-                        <h3 className="text-lg font-semibold mb-4">Total PinCodes Serving ({pincodes.length})</h3>
-                        <span>See Also: <button className="text-blue-500">Product Catalog</button></span>
+                        <h3 className="text-lg font-semibold mb-4">Total Pincodes Serving ({pincodes.length})</h3>
                     </div>
                     <div className="max-h-96 overflow-y-auto">
                         <ul>
