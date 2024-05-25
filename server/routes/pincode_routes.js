@@ -54,6 +54,7 @@ router.post("/:merchantId", upload.single("csvFile"), (req, res) => {
         client.sadd(`merchant:${merchantId}`, pincode, (err, reply) => {
           if (err) {
             console.error("Error adding pincode to set:", err);
+            res.status(500).send("Error adding pincode to set");
           } else {
             console.log(
               `Pincode ${pincode} added to set for merchant ${merchantId}`
@@ -74,6 +75,25 @@ router.post("/:merchantId", upload.single("csvFile"), (req, res) => {
       console.error("Error parsing CSV:", err);
       res.status(500).send("Error parsing CSV");
     });
+});
+
+// POST route to append a single pincode to the merchant serviceability area.
+router.post("/:merchantId/:pincode", (req, res) => {
+  const merchantId = req.params.merchantId;
+  const pincode = req.params.pincode;
+
+  client.sadd(`merchant:${merchantId}`, pincode, (err, reply) => {
+    if (err) {
+      console.error("Error adding pincode to set:", err);
+      res.status(500).send("Error adding pincode to set");
+    } else {
+      console.log(`Pincode ${pincode} added to set for merchant ${merchantId}`);
+      res
+        .status(200)
+        .send(`Pincode ${pincode} added to set for merchant ${merchantId}`);
+    }
+  });
+
 });
 
 module.exports = router;
