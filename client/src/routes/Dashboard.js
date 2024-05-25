@@ -25,25 +25,39 @@ const Dashboard = () => {
         try {
             let retObject = await makeGETRequest(`/merchant/merchants/${merchantId}`);
             setMerchantName(retObject["merchantName"]);
-            retObject = await makeGETRequest(`/pincode/${merchantId}`);
+            await updatePincodesList();
+        } catch (err) {
+            console.log("Error in getting merchant details ", err);
+        }
+    };
+
+    const updatePincodesList = async () => {
+        try {
+            let retObject = await makeGETRequest(`/pincode/${merchantId}`);
             const pincodesList = retObject["pincodesList"];
             console.log("Received pincodes list successfully: ", pincodesList);
             setPincodes(pincodesList);
         } catch (err) {
-            console.log("Error in getting merchant/pincode details ", err);
+            console.log("Error in fetching pincodes list ", err);
         }
-    };
+    }
 
     const handleSingleInsert = async () => {
-        const pincode = document.getElementById("single-pincode");
+        const pincodeInput = document.getElementById("single-pincode");
+        const pincode = pincodeInput.value;
         // Pincode validation.
         if (!/^\d{6}$/.test(pincode)) {
-            console.log("Invalid pincode format");
+            console.log("Invalid pincode format, you entered: ", pincode);
             alert("Invalid Request! Pincode has to be a 6-digit number only.");
             return;
         }
-
-        // TODO: Add single insertion call logic.
+        try {
+            await makePOSTRequest(`/pincode/${merchantId}/${pincode}`);
+            updatePincodesList(); // asynchronous call.
+            document.getElementById("single-pincode").value = "";
+        } catch (err) {
+            console.log("Error in appending pincode to merchant's list: ", err);
+        }
     }
     
     const handleCsvMassInsert = async () => {
@@ -56,6 +70,7 @@ const Dashboard = () => {
         }
         
         // TODO: Add CSV insertion call.
+        
     }
 
 
