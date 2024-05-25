@@ -10,6 +10,7 @@ const Dashboard = () => {
     const [merchantId, setMerchantId] = useState("3");
     const [merchantName, setMerchantName] = useState("");
     const [pincodes, setPincodes] = useState([]);
+    const [csvFile, setCsvFile] = useState("");
 
     useEffect(() => {
         setDetailsOnPage();
@@ -61,16 +62,24 @@ const Dashboard = () => {
     }
     
     const handleCsvMassInsert = async () => {
-        const fileInput = document.getElementById("file-upload");
-        const files = fileInput.files;
-
-        if (files.length !== 1) {
-            alert("Please attach exactly one CSV file.");
-            return;
+        // File validation.
+        if (!csvFile) {
+            alert('Please upload a CSV file before submitting the form.');
+            return; // Exit the function early if no CSV file is selected
         }
-        
-        // TODO: Add CSV insertion call.
-        
+
+        const formData = new FormData();
+        formData.append("csvFile", csvFile);
+
+        try {
+            const response = await makePOSTRequest(`/pincode/${merchantId}`, formData);
+            updatePincodesList(); // asynchronous call.
+            console.log(response);
+            alert('Form submitted successfully!');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while submitting the form. Please try again later.');
+        }
     }
 
 
@@ -116,7 +125,10 @@ const Dashboard = () => {
                                         <p className="ml-1 font-semibold">Upload</p>
                                     </div>
                                 </label>
-                                <input id="file-upload" type="file" className="hidden" />
+                                <input id="file-upload" type="file" className="hidden" 
+                                    onChange={(e) => {
+                                        setCsvFile(e.target.files[0]);
+                                    }} />
                             </div>
                             <div className="mt-4">
                                 <button className="bg-dodgeblue py-1.5 px-4 text-white rounded font-medium" onClick={handleCsvMassInsert}>
