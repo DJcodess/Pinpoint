@@ -124,6 +124,35 @@
         <div class="api-usage">
           <div class="code-block">
             <code>
+              GET /api/pincode/:merchantId
+            </code>
+          </div>
+          <p class="api-desc">Returns a list of pincodes serviced by the merchant in a sorted manner.</p>
+          <p class="api-desc">Example Response:</p>
+          <pre><code>
+{
+    "pincodesList": [
+        "110001",
+        "110064"
+    ]
+}
+</code></pre>
+        </div>
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
+              POST /api/pincode/:merchantId/:pincode
+            </code>
+          </div>
+          <p class="api-desc">Inserts a single pincode to the Redis set against the key <code>merchant:${merchantId}</code></p>
+          <p class="api-desc">Example Response:</p>
+          <pre><code>
+  'Pincode ${pincode} added to set for merchant ${merchantId}'
+  </code></pre>
+        </div>
+        <div class="api-usage">
+          <div class="code-block">
+            <code>
               POST /api/pincode/:merchantId
             </code>
           </div>
@@ -141,18 +170,6 @@ FormData:
 </code></pre>
           <p class="api-desc">Example of <code>csvFile</code> in request:</p>
           <img src="https://raw.githubusercontent.com/DJcodess/Pinpoint/main/server/images/csvExample.png" alt="Example Image" class="example-img">
-        </div>
-        <div class="api-usage">
-          <div class="code-block">
-            <code>
-              POST /api/pincode/:merchantId/:pincode
-            </code>
-          </div>
-          <p class="api-desc">Inserts a single pincode to the Redis set against the key <code>merchant:${merchantId}</code></p>
-          <p class="api-desc">Example Response:</p>
-          <pre><code>
-  'Pincode ${pincode} added to set for merchant ${merchantId}'
-  </code></pre>
         </div>
       </div>
 
