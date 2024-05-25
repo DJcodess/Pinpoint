@@ -51,40 +51,6 @@ router.get("/:merchantId", (req, res) => {
   });
 });
 
-// POST endpoint to append a single pincode to the merchant serviceability area.
-router.post("/:merchantId/:pincode", (req, res) => {
-  const merchantId = req.params.merchantId;
-  const pincode = req.params.pincode;
-
-  client.sadd(`merchant:${merchantId}`, pincode, (err, reply) => {
-    if (err) {
-      console.error("Error adding pincode to set:", err);
-      res.status(500).send("Error adding pincode to set");
-    } else {
-      console.log(`Pincode ${pincode} added to set for merchant ${merchantId}`);
-      res
-        .status(200)
-        .send(`Pincode ${pincode} added to set for merchant ${merchantId}`);
-    }
-  });
-});
-
-// POST endpoint to remove a single pincode to the merchant serviceability area.
-router.post("/remove/:merchantId/:pincode", (req, res) => {
-  const merchantId = req.params.merchantId;
-  const pincode = req.params.pincode;
-  client.srem(`merchant:${merchantId}`, pincode, (err, reply) => {
-    if (err) {
-      console.error("Error removing pincode to set:", err);
-      res.status(500).send("Error removing pincode to set");
-    } else {
-      console.log(`Pincode ${pincode} removed from set for merchant ${merchantId}`);
-      res
-        .status(200)
-        .send(`Pincode ${pincode} removed from set for merchant ${merchantId}`);
-    }
-  });
-});
 // POST endpoint to upload CSV file and set pincodes for a merchant.
 router.post("/:merchantId", upload.single("csvFile"), (req, res) => {
   const merchantId = req.params.merchantId;
@@ -124,6 +90,58 @@ router.post("/:merchantId", upload.single("csvFile"), (req, res) => {
       console.error("Error parsing CSV:", err);
       res.status(500).send("Error parsing CSV");
     });
+});
+
+// POST endpoint to append a single pincode to the merchant serviceability area.
+router.post("/:merchantId/:pincode", (req, res) => {
+  const merchantId = req.params.merchantId;
+  const pincode = req.params.pincode;
+
+  client.sadd(`merchant:${merchantId}`, pincode, (err, reply) => {
+    if (err) {
+      console.error("Error adding pincode to set:", err);
+      res.status(500).send("Error adding pincode to set");
+    } else {
+      console.log(`Pincode ${pincode} added to set for merchant ${merchantId}`);
+      res
+        .status(200)
+        .send(`Pincode ${pincode} added to set for merchant ${merchantId}`);
+    }
+  });
+});
+
+// DELETE endpoint to remove a single pincode from the merchant serviceability area.
+router.delete("/remove/:merchantId/:pincode", (req, res) => {
+  const merchantId = req.params.merchantId;
+  const pincode = req.params.pincode;
+  client.srem(`merchant:${merchantId}`, pincode, (err, reply) => {
+    if (err) {
+      console.error("Error removing pincode to set:", err);
+      res.status(500).send("Error removing pincode from the set");
+    } else {
+      console.log(`Pincode ${pincode} removed from set for merchant ${merchantId}`);
+      res
+        .status(200)
+        .send(`Pincode ${pincode} removed from set for merchant ${merchantId}`);
+    }
+  });
+});
+
+// DELETE endpoint to clear the entire set of pincodes for merchant serviceability area.
+router.delete("/remove/:merchantId", (req, res) => {
+  const merchantId = req.params.merchantId;
+  console.log("api hit");
+  client.del(`merchant:${merchantId}`, (err, reply) => {
+    if (err) {
+      console.error("Error clearing the pincodes set:", err);
+      res.status(500).send("Error clearing pincodes from the set");
+    } else {
+      console.log(`All pincodes removed from set for merchant ${merchantId}`);
+      res
+        .status(200)
+        .send(`All pincodes removed from set for merchant ${merchantId}`);
+    }
+  });
 });
 
 module.exports = router;
