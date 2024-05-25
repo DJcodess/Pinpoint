@@ -36,7 +36,16 @@ const Ecommerce = () => {
         setMerchIdsOnPageClick()
     }, []);
 
+
     const handleCheck = async () => {
+
+        // Pincode validation.
+        if (!/^\d{6}$/.test(pincode)) {
+            console.log("Invalid pincode format");
+            alert("Invalid Request! Pincode has to be a 6-digit number only.");
+            return;
+        }
+
         setChecked(true);
         setOkMerchants([]);
 
@@ -194,7 +203,7 @@ const Ecommerce = () => {
                         </div>
                         {!checked && (
                             <div className="p-2 px-6 bg-dodgeblue rounded-xl border border-dodgeblue flex justify-start items-center">
-                                <p className="text-white tracking-wide font-medium cursor-pointer" onClick={handleCheck}>check</p>
+                                <p className="text-white tracking-wide font-medium cursor-pointer" onClick={handleCheck}>Check</p>
                             </div>
                         )}
                         {showUnderNonDeliverable && checked && (

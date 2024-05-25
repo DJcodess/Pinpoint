@@ -8,16 +8,33 @@ import ONDC from '../assets/images/ondc.svg';
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");    
+    const [password, setPassword] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };   
 
     const handleLogin = () => {
-        // Implement login logic here
+        setEmailError("");
+        setPasswordError("");
+
+        if (!validateEmail(email)) {
+            setEmailError("Please enter a valid email address!");
+            return;
+        }
+        if (!password || password.length === 0) {
+            setPasswordError("Please enter your password");
+            return;
+        }
+        // TODO: Implement login logic here (token).
         const user = JSON.parse(Cookies.get('user'));
         if (user && user.email === email && user.password === password) {
             navigate('/dashboard');
         } else {
-            // Handle login error
-            alert("Invalid email or password");
+            alert("Invalid Log-in credentials!!");
         }
     };
 
@@ -49,8 +66,11 @@ const Login = () => {
                                 value={email}
                                 onChange={(e) => {
                                     setEmail(e.target.value);
+                                    setEmailError("");
                                 }}
                                 />
+                        {emailError && <p className="text-red-500 mt-2">{emailError}</p>}
+
                         <input type="password" 
                                 name="Merchant Password"
                                 className="my-6 border shadow-sm text-lg p-3 border border-solid border-dodgeblue bg-gray1 rounded placeholder-deepblue focus:outline-none focus:border-dodgeblue focus:ring-sky-500 block w-full rounded-md focus:ring-1 placeholder-dodgeblue" 
@@ -58,14 +78,23 @@ const Login = () => {
                                 value={password}
                                 onChange={(e) => {
                                     setPassword(e.target.value);
+                                    setPasswordError("");
                                 }}
                                 />
+                        {passwordError && <p className="text-red-500 mt-2">{passwordError}</p>}
+
                         <button
                             onClick={handleLogin}
                             className="text-white mt-8 bg-blue-500 border border-blue-500 w-2/3 flex items-center justify-center py-4 rounded-full text-xl font-bold transition duration-300 ease-in-out hover:text-blue-500 hover:bg-white"
                         >
                             <div>LOG IN</div>
                         </button>
+                        <div className="text-gray2 pt-4 flex items-center">
+                            <p className="italic">Or, new here? </p>
+                            <Link to='/signup'>
+                             <span className="text-dodgeblue font-semibold text-lg ml-1.5">Register</span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>

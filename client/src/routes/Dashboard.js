@@ -7,14 +7,18 @@ import { makeGETRequest, makePOSTRequest } from '../utils/serverHelper';
 const Dashboard = () => {
 
     // 'merchantId' for which the dashboard is open (logged-in merchant).
-    const [merchantId, setMerchantId] = useState("51ce09c7-17f2-4e7b-97e7-1a63e800d543");
+    const [merchantId, setMerchantId] = useState("3");
     const [merchantName, setMerchantName] = useState("");
     const [pincodes, setPincodes] = useState([]);
 
+    useEffect(() => {
+        setDetailsOnPage();
+    }, [merchantId]);
+
     useEffect (() => {
         // TODO: Update merchantId with logged-in user.
-        
-        setDetailsOnPage();
+
+        setMerchantId("51ce09c7-17f2-4e7b-97e7-1a63e800d543");
     }, []);
 
     const setDetailsOnPage = async () => {
@@ -29,6 +33,30 @@ const Dashboard = () => {
             console.log("Error in getting merchant/pincode details ", err);
         }
     };
+
+    const handleSingleInsert = async () => {
+        const pincode = document.getElementById("single-pincode");
+        // Pincode validation.
+        if (!/^\d{6}$/.test(pincode)) {
+            console.log("Invalid pincode format");
+            alert("Invalid Request! Pincode has to be a 6-digit number only.");
+            return;
+        }
+
+        // TODO: Add single insertion call logic.
+    }
+    
+    const handleCsvMassInsert = async () => {
+        const fileInput = document.getElementById("file-upload");
+        const files = fileInput.files;
+
+        if (files.length !== 1) {
+            alert("Please attach exactly one CSV file.");
+            return;
+        }
+        
+        // TODO: Add CSV insertion call.
+    }
 
 
     return (
@@ -46,12 +74,12 @@ const Dashboard = () => {
                         <div className="flex gap-3 w-full">
                             <input
                                 type="text"
-                                name="price"
-                                id="price"
+                                name="single-pincode"
+                                id="single-pincode"
                                 className="block w-full rounded-md border-0 py-1.5 pl-4 pr-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                 placeholder="Enter pincode here"
                             />
-                            <button className="bg-dodgeblue py-1.5 px-4 text-white rounded font-medium">
+                            <button className="bg-dodgeblue py-1.5 px-4 text-white rounded font-medium" onClick={handleSingleInsert}>
                                 Insert
                             </button>
                         </div>
@@ -76,7 +104,7 @@ const Dashboard = () => {
                                 <input id="file-upload" type="file" className="hidden" />
                             </div>
                             <div className="mt-4">
-                                <button className="bg-dodgeblue py-1.5 px-4 text-white rounded font-medium">
+                                <button className="bg-dodgeblue py-1.5 px-4 text-white rounded font-medium" onClick={handleCsvMassInsert}>
                                     Insert
                                 </button>
                             </div>
