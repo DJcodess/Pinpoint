@@ -11,6 +11,14 @@ export const makePOSTRequest = async (route, body) => {
 	return response;
 };
 
+export const makeDELETERequest = async (route, body) => {
+    const response = await fetch(backendUrl + route, {
+        method: 'DELETE',
+        body: body,
+    });
+	return response;
+};
+
 export const makeGETRequest = async (route, body) => {
 	const response = await fetch(backendUrl + route, {
 		method: 'GET',

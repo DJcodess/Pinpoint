@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import PinPointName from '../assets/images/pinpointName.svg'; 
-import { makeGETRequest, makePOSTRequest } from '../utils/serverHelper';
+import { makeGETRequest, makePOSTRequest, makeDELETERequest } from '../utils/serverHelper';
 
 const Dashboard = () => {
 
@@ -79,6 +79,30 @@ const Dashboard = () => {
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while submitting the form. Please try again later.');
+        }
+    }
+
+    const handleMassDelete = async () => {
+        try {
+            const response = await makeDELETERequest(`/pincode/remove/${merchantId}`);
+            updatePincodesList(); // asynchronous call.
+            console.log(response);
+            alert('All pincodes deleted successfully!');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while deleting pincodes.');
+        }
+    }
+
+    const handleSingleDelete = async (pincode) => {
+        try {
+            const response = await makeDELETERequest(`/pincode/remove/${merchantId}/${pincode}`);
+            updatePincodesList(); // asynchronous call.
+            console.log(response);
+            alert('All pincodes deleted successfully!');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while deleting pincodes.');
         }
     }
 
