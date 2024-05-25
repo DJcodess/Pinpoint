@@ -7,6 +7,7 @@ import Home from './routes/Home.js';
 import Ecommerce from './routes/Ecommerce';
 import Dashboard from './routes/Dashboard';
 import { useCookies } from 'react-cookie';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
 
@@ -32,10 +33,9 @@ function App() {
             path='/ecommerce'
             element=<Ecommerce />
           />
-          <Route 
-            path='/dashboard'
-            element=<Dashboard />
-          />  
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>
