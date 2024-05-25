@@ -165,7 +165,7 @@ const Dashboard = () => {
                 <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
                     <div className="flex justify-between mb-2">
                         <h3 className="text-lg font-semibold mb-4">Total Pincodes Serving ({pincodes.length})</h3>
-                        <p className="text-base	font-base text-red-500 mr-2">Clear All</p>
+                        <button className="text-base font-base text-red-500 mr-2 hover:drop-shadow-lg hover:text-lg" onClick={handleMassDelete}>Clear All</button>
                     </div>
                     <div className="max-h-96 overflow-y-auto">
                         <ul>
@@ -179,7 +179,7 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-center">
-                                        <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg" />
+                                        <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg cursor-pointer hover:drop-shadow-xl hover:animate-ping" onClick={handleSingleDelete} />
                                     </div>
                                 </li>
                             ))}
