@@ -4,7 +4,7 @@ import PinPointName from '../assets/images/pinpointName.svg';
 import { makeGETRequest, makePOSTRequest, makeDELETERequest } from '../utils/serverHelper';
 
 const Dashboard = () => {
-    const [merchantId, setMerchantId] = useState("3");
+    const [merchantId, setMerchantId] = useState("51ce09c7-17f2-4e7b-97e7-1a63e800d543");
     const [merchantName, setMerchantName] = useState("");
     const [pincodes, setPincodes] = useState([]);
     const [csvFile, setCsvFile] = useState("");
@@ -14,6 +14,7 @@ const Dashboard = () => {
     }, [merchantId]);
 
     useEffect(() => {
+        setDetailsOnPage();
         setMerchantId("51ce09c7-17f2-4e7b-97e7-1a63e800d543");
     }, []);
 
