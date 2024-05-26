@@ -43,7 +43,7 @@ All these optimizations have been made to improve the user experience.
 
 Demo Video on YouTube:
 
-[![Watch the video]([https://www.youtube.com/watch?v=5ZxIyJHNei8](https://youtu.be/SRinIlxBpC0?si=3Xldk0i8MBaEi3UN))
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SRinIlxBpC0?si=ObTI-ZMK1onnuTNl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## API Reference
 
