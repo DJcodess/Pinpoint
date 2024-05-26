@@ -43,7 +43,7 @@ All these optimizations have been made to improve the user experience.
 
 Demo Video on YouTube:
 
-[![Watch the video](https://img.youtube.com/vi/5ZxIyJHNei8/0.jpg)](https://www.youtube.com/watch?v=5ZxIyJHNei8)
+[![Watch the video]([https://www.youtube.com/watch?v=5ZxIyJHNei8](https://youtu.be/SRinIlxBpC0?si=3Xldk0i8MBaEi3UN))
 
 ## API Reference
 
