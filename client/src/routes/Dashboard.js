@@ -1,12 +1,9 @@
-// src/components/Dashboard.js
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import PinPointName from '../assets/images/pinpointName.svg'; 
 import { makeGETRequest, makePOSTRequest, makeDELETERequest } from '../utils/serverHelper';
 
 const Dashboard = () => {
-
-    // 'merchantId' for which the dashboard is open (logged-in merchant).
     const [merchantId, setMerchantId] = useState("3");
     const [merchantName, setMerchantName] = useState("");
     const [pincodes, setPincodes] = useState([]);
@@ -16,9 +13,7 @@ const Dashboard = () => {
         setDetailsOnPage();
     }, [merchantId]);
 
-    useEffect (() => {
-        // TODO: Update merchantId with logged-in user.
-
+    useEffect(() => {
         setMerchantId("51ce09c7-17f2-4e7b-97e7-1a63e800d543");
     }, []);
 
@@ -46,7 +41,6 @@ const Dashboard = () => {
     const handleSingleInsert = async () => {
         const pincodeInput = document.getElementById("single-pincode");
         const pincode = pincodeInput.value;
-        // Pincode validation.
         if (!/^\d{6}$/.test(pincode)) {
             console.log("Invalid pincode format, you entered: ", pincode);
             alert("Invalid Request! Pincode has to be a 6-digit number only.");
@@ -54,18 +48,17 @@ const Dashboard = () => {
         }
         try {
             await makePOSTRequest(`/pincode/${merchantId}/${pincode}`);
-            updatePincodesList(); // asynchronous call.
+            updatePincodesList();
             document.getElementById("single-pincode").value = "";
         } catch (err) {
             console.log("Error in appending pincode to merchant's list: ", err);
         }
     }
-    
+
     const handleCsvMassInsert = async () => {
-        // File validation.
         if (!csvFile) {
             alert('Please upload a CSV file before submitting the form.');
-            return; // Exit the function early if no CSV file is selected
+            return;
         }
 
         const formData = new FormData();
@@ -74,7 +67,7 @@ const Dashboard = () => {
         try {
             const response = await makePOSTRequest(`/pincode/${merchantId}`, formData);
             setCsvFile("");
-            updatePincodesList(); // asynchronous call.
+            updatePincodesList();
             console.log(response);
             alert('Pincodes inserted successfully!');
         } catch (error) {
@@ -86,7 +79,7 @@ const Dashboard = () => {
     const handleMassDelete = async () => {
         try {
             const response = await makeDELETERequest(`/pincode/remove/${merchantId}`);
-            updatePincodesList(); // asynchronous call.
+            updatePincodesList();
             console.log(response);
             alert('All pincodes deleted successfully!');
         } catch (error) {
@@ -98,7 +91,7 @@ const Dashboard = () => {
     const handleSingleDelete = async (pincode) => {
         try {
             const response = await makeDELETERequest(`/pincode/remove/${merchantId}/${pincode}`);
-            updatePincodesList(); // asynchronous call.
+            updatePincodesList();
             console.log(response);
             alert('Selected pincode deleted successfully!');
         } catch (error) {
@@ -107,11 +100,10 @@ const Dashboard = () => {
         }
     }
 
-
     return (
         <div className="p-6 bg-gray-100 min-h-screen">
             <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-                <img src={PinPointName} alt="pinpoint" className="h-4"/>
+                <img src={PinPointName} alt="pinpoint" className="h-4" />
                 <h2 className="text-xl font-semibold mb-2">Dashboard</h2>
                 <div className="border-b border-gray-300 w-full mb-4"></div>
                 <div className="text-2xl font-bold px-2 py-1 text-gray-900">
@@ -141,7 +133,7 @@ const Dashboard = () => {
                                 <p className="text-xs text-gray2">csv file</p>
                             </div>
                         </div>
-                        <div className="flex  items-center w-full gap-3">
+                        <div className="flex items-center w-full gap-3">
                             <div className="flex py-2 px-2 border border-dashed border-gray2 rounded-lg items-center justify-around w-full mt-3 bg-gray1">
                                 {!csvFile && (
                                     <label htmlFor="file-upload" className="cursor-pointer flex gap-2 py-2 items-center justify-around w-full">
@@ -150,16 +142,16 @@ const Dashboard = () => {
                                             <Icon icon="tabler:upload" color="#0174f0" width="20" height="20" />
                                             <p className="ml-1 font-semibold">Upload</p>
                                         </div>
-                                        <input id="file-upload" type="file" className="hidden" 
+                                        <input id="file-upload" type="file" className="hidden"
                                             onChange={(e) => {
                                                 setCsvFile(e.target.files[0]);
-                                        }} />
+                                            }} />
                                     </label>
                                 )}
                                 {csvFile && (
                                     <div className="mt-2">
                                         <p>File attached: {csvFile.name}</p>
-                                        <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg cursor-pointer hover:drop-shadow-xl hover:animate-ping" 
+                                        <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg cursor-pointer hover:drop-shadow-xl hover:animate-ping"
                                             onClick={() => setCsvFile("")} />
                                     </div>
                                 )}
@@ -178,23 +170,26 @@ const Dashboard = () => {
                         <button className="text-base font-base text-red-500 mr-2 hover:drop-shadow-lg hover:text-lg" onClick={handleMassDelete}>Clear All</button>
                     </div>
                     <div className="max-h-96 overflow-y-auto">
-                        <ul>
-                            {Array.isArray(pincodes) && pincodes.map((code, index) => (
-                                <li key={index} className="flex items-center justify-between mb-2 p-2 bg-white rounded-lg shadow-sm">
-                                    <div className="flex items-center">
-                                        <Icon icon="system-uicons:location" className="text-2xl mr-4 text-dodgeblue" />
-                                        <div>
-                                            <p className="font-medium text-xl text-darkgray">{code}</p>
-                                            <p className="text-sm text-gray-500"></p>
+                        {pincodes.length === 0 ? (
+                            <p className="text-center text-gray-500">No PINCodes found</p>
+                        ) : (
+                            <ul>
+                                {Array.isArray(pincodes) && pincodes.map((code, index) => (
+                                    <li key={index} className="flex items-center justify-between mb-2 p-2 bg-white rounded-lg shadow-sm">
+                                        <div className="flex items-center">
+                                            <Icon icon="system-uicons:location" className="text-2xl mr-4 text-dodgeblue" />
+                                            <div>
+                                                <p className="font-medium text-xl text-darkgray">{code}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg cursor-pointer hover:drop-shadow-xl hover:animate-ping" 
-                                            onClick={() => handleSingleDelete(code)} />
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
+                                        <div className="flex items-center">
+                                            <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg cursor-pointer hover:drop-shadow-xl hover:animate-ping"
+                                                onClick={() => handleSingleDelete(code)} />
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                 </div>
             </div>
