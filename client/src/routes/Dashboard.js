@@ -73,12 +73,13 @@ const Dashboard = () => {
 
         try {
             const response = await makePOSTRequest(`/pincode/${merchantId}`, formData);
+            setCsvFile("");
             updatePincodesList(); // asynchronous call.
             console.log(response);
-            alert('Pincodes submitted successfully!');
+            alert('Pincodes inserted successfully!');
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred while submitting the form. Please try again later.');
+            alert('An error occurred while inserting pincodes. Please try again later.');
         }
     }
 
@@ -142,17 +143,26 @@ const Dashboard = () => {
                         </div>
                         <div className="flex  items-center w-full gap-3">
                             <div className="flex py-2 px-2 border border-dashed border-gray2 rounded-lg items-center justify-around w-full mt-3 bg-gray1">
-                                <label htmlFor="file-upload" className="cursor-pointer flex gap-2 py-2 items-center justify-around w-full">
-                                    <span>Drop CSV here or</span>
-                                    <div className="flex items-center py-1.5 px-5 bg-blue-100 border border-blue-300 rounded gap-1.5">
-                                        <Icon icon="tabler:upload" color="#0174f0" width="20" height="20" />
-                                        <p className="ml-1 font-semibold">Upload</p>
+                                {!csvFile && (
+                                    <label htmlFor="file-upload" className="cursor-pointer flex gap-2 py-2 items-center justify-around w-full">
+                                        <span>Drop CSV here or</span>
+                                        <div className="flex items-center py-1.5 px-5 bg-blue-100 border border-blue-300 rounded gap-1.5">
+                                            <Icon icon="tabler:upload" color="#0174f0" width="20" height="20" />
+                                            <p className="ml-1 font-semibold">Upload</p>
+                                        </div>
+                                        <input id="file-upload" type="file" className="hidden" 
+                                            onChange={(e) => {
+                                                setCsvFile(e.target.files[0]);
+                                        }} />
+                                    </label>
+                                )}
+                                {csvFile && (
+                                    <div className="mt-2">
+                                        <p>File attached: {csvFile.name}</p>
+                                        <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg cursor-pointer hover:drop-shadow-xl hover:animate-ping" 
+                                            onClick={() => setCsvFile("")} />
                                     </div>
-                                </label>
-                                <input id="file-upload" type="file" className="hidden" 
-                                    onChange={(e) => {
-                                        setCsvFile(e.target.files[0]);
-                                    }} />
+                                )}
                             </div>
                             <div className="mt-4">
                                 <button className="bg-dodgeblue py-1.5 px-4 text-white rounded font-medium" onClick={handleCsvMassInsert}>
@@ -179,7 +189,8 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                     <div className="flex items-center">
-                                        <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg cursor-pointer hover:drop-shadow-xl hover:animate-ping" onClick={handleSingleDelete} />
+                                        <Icon icon="mingcute:delete-line" className="text-red-500 mr-2 text-lg cursor-pointer hover:drop-shadow-xl hover:animate-ping" 
+                                            onClick={() => handleSingleDelete(code)} />
                                     </div>
                                 </li>
                             ))}
